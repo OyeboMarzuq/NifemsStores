@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details - NifemsStore</title>
+    <link rel="stylesheet" href="../../css/main.css">
+    <link rel="stylesheet" href="../../css/layout.css">
+    <link rel="stylesheet" href="../../css/components.css">
+    <link rel="stylesheet" href="../../css/customer.css">
+</head>
+<body>
+    <div id="header-container"></div>
+
+    <main class="main-container">
+        <div class="breadcrumb">
+            <a href="/pages/customer/home.html">Home</a>
+            <span>/</span>
+            <a href="/pages/customer/products.html">Products</a>
+            <span>/</span>
+            <span id="breadcrumb-name">Product</span>
+        </div>
+
+        <div class="product-detail-container">
+            <div class="product-detail-content">
+                <!-- Product Images -->
+                <div class="product-gallery">
+                    <div class="main-image-container">
+                        <img id="main-image" src="" alt="Product Image" class="main-image">
+                        <div id="discount-badge" class="discount-badge" style="display: none;"></div>
+                    </div>
+                    <div class="thumbnail-gallery">
+                        <div id="thumbnails-container"></div>
+                    </div>
+                </div>
+
+                <!-- Product Information -->
+                <div class="product-details">
+                    <div class="product-header">
+                        <div class="vendor-info">
+                            <span class="vendor-name" id="vendor-name"></span>
+                            <span class="vendor-rating">
+                                <span class="stars" id="vendor-stars"></span>
+                                <span class="rating-count" id="vendor-reviews"></span>
+                            </span>
+                        </div>
+                        <button class="wishlist-btn large" id="wishlist-btn">♡</button>
+                    </div>
+
+                    <h1 id="product-name" class="product-title"></h1>
+
+                    <div class="rating-section">
+                        <div class="stars" id="product-stars"></div>
+                        <span class="review-count" id="review-count"></span>
+                    </div>
+
+                    <div class="price-section">
+                        <span class="price" id="current-price"></span>
+                        <span class="original-price" id="original-price" style="display: none;"></span>
+                        <span class="stock-status" id="stock-status"></span>
+                    </div>
+
+                    <div class="quantity-selector">
+                        <label for="quantity">Quantity:</label>
+                        <div class="quantity-input">
+                            <button id="decrease-qty" class="qty-btn">-</button>
+                            <input type="number" id="quantity" value="1" min="1">
+                            <button id="increase-qty" class="qty-btn">+</button>
+                        </div>
+                        <span class="available-stock" id="available-stock"></span>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button id="add-to-cart" class="btn btn-primary btn-lg">Add to Cart</button>
+                        <button id="buy-now" class="btn btn-secondary btn-lg">Buy Now</button>
+                    </div>
+
+                    <div class="product-features">
+                        <h3>Key Features</h3>
+                        <ul id="features-list"></ul>
+                    </div>
+
+                    <div class="product-meta">
+                        <div class="meta-item">
+                            <span class="meta-label">SKU:</span>
+                            <span id="sku"></span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Category:</span>
+                            <span id="category"></span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Shipping:</span>
+                            <span id="shipping-info"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Description and Reviews -->
+        <div class="product-tabs">
+            <div class="tab-buttons">
+                <button class="tab-btn active" data-tab="description">Description</button>
+                <button class="tab-btn" data-tab="reviews">Reviews</button>
+                <button class="tab-btn" data-tab="specifications">Specifications</button>
+            </div>
+
+            <div class="tab-content">
+                <div id="description" class="tab-pane active">
+                    <div id="product-description"></div>
+                </div>
+
+                <div id="reviews" class="tab-pane">
+                    <div class="reviews-section">
+                        <div class="reviews-summary">
+                            <div class="average-rating">
+                                <div class="big-rating" id="avg-rating"></div>
+                                <div class="rating-bars">
+                                    <div class="rating-bar">
+                                        <span>5★</span>
+                                        <div class="bar-container">
+                                            <div class="bar" id="bar-5"></div>
+                                        </div>
+                                    </div>
+                                    <div class="rating-bar">
+                                        <span>4★</span>
+                                        <div class="bar-container">
+                                            <div class="bar" id="bar-4"></div>
+                                        </div>
+                                    </div>
+                                    <div class="rating-bar">
+                                        <span>3★</span>
+                                        <div class="bar-container">
+                                            <div class="bar" id="bar-3"></div>
+                                        </div>
+                                    </div>
+                                    <div class="rating-bar">
+                                        <span>2★</span>
+                                        <div class="bar-container">
+                                            <div class="bar" id="bar-2"></div>
+                                        </div>
+                                    </div>
+                                    <div class="rating-bar">
+                                        <span>1★</span>
+                                        <div class="bar-container">
+                                            <div class="bar" id="bar-1"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="reviews-list"></div>
+                    </div>
+                </div>
+
+                <div id="specifications" class="tab-pane">
+                    <table class="specs-table">
+                        <tbody id="specs-body"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Related Products -->
+        <div class="related-products">
+            <h2>Related Products</h2>
+            <div id="related-products-grid" class="products-grid"></div>
+        </div>
+    </main>
+
+    <div id="footer-container"></div>
+
+    <script type="module" src="../../js/components/header.js"></script>
+    <script type="module" src="../../js/components/footer.js"></script>
+    <script type="module" src="../../js/pages/customer/product-detail.js"></script>
+</body>
+</html>

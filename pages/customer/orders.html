@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders - NifemsStore</title>
+    <link rel="stylesheet" href="../../css/main.css">
+    <link rel="stylesheet" href="../../css/layout.css">
+    <link rel="stylesheet" href="../../css/components.css">
+    <link rel="stylesheet" href="../../css/customer.css">
+</head>
+<body>
+    <div id="header-container"></div>
+
+    <main class="main-container">
+        <div class="breadcrumb">
+            <a href="/pages/customer/home.html">Home</a>
+            <span>/</span>
+            <span>My Orders</span>
+        </div>
+
+        <div class="orders-container">
+            <h1>My Orders</h1>
+
+            <div class="orders-filters">
+                <div class="filter-group">
+                    <label for="status-filter">Status:</label>
+                    <select id="status-filter">
+                        <option value="">All Orders</option>
+                        <option value="pending">Pending</option>
+                        <option value="processing">Processing</option>
+                        <option value="shipped">Shipped</option>
+                        <option value="delivered">Delivered</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="date-filter">Date:</label>
+                    <select id="date-filter">
+                        <option value="">All Time</option>
+                        <option value="week">Last 7 Days</option>
+                        <option value="month">Last 30 Days</option>
+                        <option value="year">Last Year</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <input type="search" id="search-orders" placeholder="Search by order number...">
+                </div>
+            </div>
+
+            <div id="orders-list"></div>
+
+            <div id="no-orders" class="empty-state" style="display: none;">
+                <p>You have no orders yet.</p>
+                <a href="/pages/customer/products.html" class="btn btn-primary">Start Shopping</a>
+            </div>
+        </div>
+    </main>
+
+    <div id="footer-container"></div>
+
+    <script type="module" src="../../js/components/header.js"></script>
+    <script type="module" src="../../js/components/footer.js"></script>
+    <script type="module" src="../../js/pages/customer/orders.js"></script>
+</body>
+</html>

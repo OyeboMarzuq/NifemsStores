@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - NifemsStore</title>
+    <link rel="stylesheet" href="../../css/main.css">
+    <link rel="stylesheet" href="../../css/layout.css">
+    <link rel="stylesheet" href="../../css/components.css">
+    <link rel="stylesheet" href="../../css/customer.css">
+</head>
+<body>
+    <div id="header-container"></div>
+
+    <main class="main-container">
+        <div class="breadcrumb">
+            <a href="/pages/customer/home.html">Home</a>
+            <span>/</span>
+            <span>Checkout</span>
+        </div>
+
+        <div class="checkout-container">
+            <h1>Checkout</h1>
+
+            <div class="checkout-content">
+                <div class="checkout-forms">
+                    <!-- Step 1: Shipping Address -->
+                    <div class="checkout-section" id="shipping-section">
+                        <h2>1. Shipping Address</h2>
+                        <form id="shipping-form" class="checkout-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="first-name">First Name *</label>
+                                    <input type="text" id="first-name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="last-name">Last Name *</label>
+                                    <input type="text" id="last-name" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email">Email *</label>
+                                <input type="email" id="email" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="phone">Phone Number *</label>
+                                <input type="tel" id="phone" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="address">Street Address *</label>
+                                <input type="text" id="address" required>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="city">City *</label>
+                                    <input type="text" id="city" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="state">State/Province *</label>
+                                    <input type="text" id="state" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="zip">Postal Code *</label>
+                                    <input type="text" id="zip" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="country">Country *</label>
+                                <select id="country" required>
+                                    <option value="">Select Country</option>
+                                    <option value="NG">Nigeria</option>
+                                    <option value="US">United States</option>
+                                    <option value="GB">United Kingdom</option>
+                                    <option value="CA">Canada</option>
+                                    <option value="AU">Australia</option>
+                                </select>
+                            </div>
+
+                            <label class="checkbox">
+                                <input type="checkbox" id="same-billing">
+                                <span>Billing address same as shipping</span>
+                            </label>
+
+                            <button type="button" id="next-payment-btn" class="btn btn-primary">Next: Payment Method</button>
+                        </form>
+                    </div>
+
+                    <!-- Step 2: Payment Method -->
+                    <div class="checkout-section" id="payment-section" style="display: none;">
+                        <h2>2. Payment Method</h2>
+                        
+                        <div class="payment-methods">
+                            <label class="payment-option">
+                                <input type="radio" name="payment-method" value="credit-card" checked>
+                                <span>Credit/Debit Card</span>
+                            </label>
+
+                            <label class="payment-option">
+                                <input type="radio" name="payment-method" value="bank-transfer">
+                                <span>Bank Transfer</span>
+                            </label>
+
+                            <label class="payment-option">
+                                <input type="radio" name="payment-method" value="cash-delivery">
+                                <span>Cash on Delivery</span>
+                            </label>
+                        </div>
+
+                        <!-- Credit Card Form -->
+                        <form id="credit-card-form" class="payment-form payment-card-form">
+                            <h3>Credit/Debit Card</h3>
+                            
+                            <div class="form-group">
+                                <label for="card-holder">Card Holder Name *</label>
+                                <input type="text" id="card-holder" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="card-number">Card Number *</label>
+                                <input type="text" id="card-number" placeholder="1234 5678 9012 3456" maxlength="19" required>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="expiry">Expiry Date *</label>
+                                    <input type="text" id="expiry" placeholder="MM/YY" maxlength="5" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="cvv">CVV *</label>
+                                    <input type="text" id="cvv" placeholder="123" maxlength="3" required>
+                                </div>
+                            </div>
+
+                            <label class="checkbox">
+                                <input type="checkbox" id="save-card">
+                                <span>Save this card for future purchases</span>
+                            </label>
+                        </form>
+
+                        <!-- Bank Transfer Form -->
+                        <div id="bank-transfer-form" class="payment-form" style="display: none;">
+                            <h3>Bank Transfer</h3>
+                            <div class="bank-details">
+                                <p>Please transfer the order amount to:</p>
+                                <div class="bank-info">
+                                    <div class="info-item">
+                                        <strong>Bank:</strong> First Bank Nigeria
+                                    </div>
+                                    <div class="info-item">
+                                        <strong>Account Name:</strong> NifemsStore Ltd
+                                    </div>
+                                    <div class="info-item">
+                                        <strong>Account Number:</strong> 1234567890
+                                    </div>
+                                    <div class="info-item">
+                                        <strong>Amount:</strong> <span id="transfer-amount">$0.00</span>
+                                    </div>
+                                </div>
+                                <p class="note">Please include your order number in the transfer reference.</p>
+                            </div>
+                        </div>
+
+                        <!-- Cash on Delivery Form -->
+                        <div id="cod-form" class="payment-form" style="display: none;">
+                            <h3>Cash on Delivery</h3>
+                            <div class="cod-info">
+                                <p>You will pay for your order when it's delivered.</p>
+                                <div class="info-box">
+                                    <p>Please make sure someone is available to receive the package and process the payment.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="button" id="back-shipping-btn" class="btn btn-secondary">Back</button>
+                            <button type="button" id="place-order-btn" class="btn btn-primary">Place Order</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Order Summary Sidebar -->
+                <aside class="checkout-summary">
+                    <h2>Order Summary</h2>
+                    <div id="order-items"></div>
+
+                    <div class="summary-item">
+                        <span>Subtotal:</span>
+                        <span id="summary-subtotal">$0.00</span>
+                    </div>
+
+                    <div class="summary-item">
+                        <span>Shipping:</span>
+                        <span id="summary-shipping">$0.00</span>
+                    </div>
+
+                    <div class="summary-item">
+                        <span>Tax:</span>
+                        <span id="summary-tax">$0.00</span>
+                    </div>
+
+                    <div class="summary-divider"></div>
+
+                    <div class="summary-item total">
+                        <span>Total:</span>
+                        <span id="summary-total">$0.00</span>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <div id="footer-container"></div>
+
+    <script type="module" src="../../js/components/header.js"></script>
+    <script type="module" src="../../js/components/footer.js"></script>
+    <script type="module" src="../../js/pages/customer/checkout.js"></script>
+</body>
+</html>
