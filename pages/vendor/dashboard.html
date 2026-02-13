@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vendor Dashboard - NifemsStore</title>
+    <link rel="stylesheet" href="../../css/main.css">
+    <link rel="stylesheet" href="../../css/layout.css">
+    <link rel="stylesheet" href="../../css/components.css">
+    <link rel="stylesheet" href="../../css/vendor.css">
+</head>
+<body>
+    <div id="header-container"></div>
+
+    <div class="vendor-container" style="display: flex; min-height: calc(100vh - 200px);">
+        <!-- Sidebar -->
+        <aside class="vendor-sidebar">
+            <div class="vendor-sidebar-header">
+                <div class="vendor-profile">
+                    <div class="vendor-avatar">S</div>
+                    <div class="vendor-profile-info">
+                        <h3 id="vendor-name">Store Name</h3>
+                        <p id="vendor-email">store@example.com</p>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="vendor-nav">
+                <li class="vendor-nav-item">
+                    <a href="/pages/vendor/dashboard.html" class="vendor-nav-link active">
+                        📊
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="vendor-nav-item">
+                    <a href="/pages/vendor/products.html" class="vendor-nav-link">
+                        📦
+                        <span>Products</span>
+                        <span class="badge" id="product-count">0</span>
+                    </a>
+                </li>
+                <li class="vendor-nav-item">
+                    <a href="/pages/vendor/orders.html" class="vendor-nav-link">
+                        🛒
+                        <span>Orders</span>
+                        <span class="badge" id="order-count">0</span>
+                    </a>
+                </li>
+                <li class="vendor-nav-item">
+                    <a href="/pages/vendor/analytics.html" class="vendor-nav-link">
+                        📈
+                        <span>Analytics</span>
+                    </a>
+                </li>
+                <li class="vendor-nav-item">
+                    <a href="/pages/vendor/reviews.html" class="vendor-nav-link">
+                        ⭐
+                        <span>Reviews</span>
+                    </a>
+                </li>
+                <li class="vendor-nav-item">
+                    <a href="/pages/vendor/settings.html" class="vendor-nav-link">
+                        ⚙️
+                        <span>Settings</span>
+                    </a>
+                </li>
+                <li class="vendor-nav-item" style="border-top: 1px solid #e0e0e0; margin-top: auto;">
+                    <a href="#" id="logout-btn" class="vendor-nav-link">
+                        🚪
+                        <span>Logout</span>
+                    </a>
+                </li>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="vendor-content">
+            <div class="vendor-header">
+                <h1>Dashboard</h1>
+                <button class="btn btn-primary">Add Product</button>
+            </div>
+
+            <!-- Stats -->
+            <div class="vendor-stats">
+                <div class="stat-card">
+                    <div class="stat-label">Total Sales</div>
+                    <div class="stat-value" id="total-sales">$0.00</div>
+                    <div class="stat-change positive">↑ 12% from last month</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-label">Orders</div>
+                    <div class="stat-value" id="total-orders">0</div>
+                    <div class="stat-change positive">↑ 5 new orders today</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-label">Products</div>
+                    <div class="stat-value" id="total-products">0</div>
+                    <div class="stat-change">Active listings</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-label">Rating</div>
+                    <div class="stat-value" id="avg-rating">0.0</div>
+                    <div class="stat-change positive">Based on 0 reviews</div>
+                </div>
+            </div>
+
+            <!-- Recent Orders -->
+            <div class="orders-section">
+                <div class="section-header">
+                    <h2>Recent Orders</h2>
+                    <a href="/pages/vendor/orders.html" class="btn btn-secondary">View All</a>
+                </div>
+                <div id="recent-orders"></div>
+            </div>
+
+            <!-- Top Products -->
+            <div class="products-section" style="margin-top: 30px;">
+                <div class="section-header">
+                    <h2>Top Products</h2>
+                    <a href="/pages/vendor/products.html" class="btn btn-secondary">Manage Products</a>
+                </div>
+                <table class="products-table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Sales</th>
+                            <th>Revenue</th>
+                            <th>Stock</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="top-products">
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <div id="footer-container"></div>
+
+    <script type="module" src="../../js/components/header.js"></script>
+    <script type="module" src="../../js/components/footer.js"></script>
+    <script type="module" src="../../js/pages/vendor/dashboard.js"></script>
+</body>
+</html>

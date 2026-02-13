@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders - NifemsStore Vendor</title>
+    <link rel="stylesheet" href="../../css/main.css">
+    <link rel="stylesheet" href="../../css/layout.css">
+    <link rel="stylesheet" href="../../css/components.css">
+    <link rel="stylesheet" href="../../css/vendor.css">
+</head>
+<body>
+    <div id="header-container"></div>
+
+    <div class="vendor-container" style="display: flex; min-height: calc(100vh - 200px);">
+        <!-- Sidebar -->
+        <aside class="vendor-sidebar" id="sidebar-container"></aside>
+
+        <!-- Main Content -->
+        <main class="vendor-content">
+            <div class="vendor-header">
+                <h1>Orders</h1>
+            </div>
+
+            <!-- Filters -->
+            <div class="orders-filters" style="margin-bottom: 20px;">
+                <div class="filter-group">
+                    <select id="status-filter">
+                        <option value="">All Status</option>
+                        <option value="pending">Pending</option>
+                        <option value="processing">Processing</option>
+                        <option value="shipped">Shipped</option>
+                        <option value="delivered">Delivered</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <input type="search" id="search-orders" placeholder="Search order number...">
+                </div>
+            </div>
+
+            <!-- Orders List -->
+            <div class="orders-section">
+                <div id="orders-container"></div>
+            </div>
+        </main>
+    </div>
+
+    <div id="footer-container"></div>
+
+    <script type="module" src="../../js/components/header.js"></script>
+    <script type="module" src="../../js/components/footer.js"></script>
+    <script type="module" src="../../js/pages/vendor/sidebar.js"></script>
+    <script type="module" src="../../js/pages/vendor/orders.js"></script>
+</body>
+</html>

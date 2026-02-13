@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation - NifemsStore</title>
+    <link rel="stylesheet" href="../../css/main.css">
+    <link rel="stylesheet" href="../../css/layout.css">
+    <link rel="stylesheet" href="../../css/components.css">
+    <link rel="stylesheet" href="../../css/customer.css">
+</head>
+<body>
+    <div id="header-container"></div>
+
+    <main class="main-container">
+        <div class="confirmation-container">
+            <div class="confirmation-header">
+                <div class="success-icon">✓</div>
+                <h1>Order Confirmed!</h1>
+                <p>Thank you for your order</p>
+            </div>
+
+            <div class="confirmation-content">
+                <div class="order-info">
+                    <div class="info-section">
+                        <h2>Order Details</h2>
+                        <div class="info-group">
+                            <span class="label">Order Number:</span>
+                            <span class="value" id="order-number"></span>
+                        </div>
+                        <div class="info-group">
+                            <span class="label">Order Date:</span>
+                            <span class="value" id="order-date"></span>
+                        </div>
+                        <div class="info-group">
+                            <span class="label">Status:</span>
+                            <span class="value status-badge" id="order-status">Processing</span>
+                        </div>
+                    </div>
+
+                    <div class="info-section">
+                        <h2>Shipping Address</h2>
+                        <div id="shipping-address"></div>
+                    </div>
+
+                    <div class="info-section">
+                        <h2>Order Items</h2>
+                        <table class="items-table">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody id="order-items">
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="info-section">
+                        <h2>Order Summary</h2>
+                        <div class="summary-row">
+                            <span>Subtotal:</span>
+                            <span id="summary-subtotal">$0.00</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Shipping:</span>
+                            <span id="summary-shipping">$0.00</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Tax:</span>
+                            <span id="summary-tax">$0.00</span>
+                        </div>
+                        <div class="summary-row total">
+                            <span>Total:</span>
+                            <span id="summary-total">$0.00</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Payment Method:</span>
+                            <span id="payment-method"></span>
+                        </div>
+                    </div>
+
+                    <div class="info-section">
+                        <h2>Next Steps</h2>
+                        <ul class="next-steps">
+                            <li>A confirmation email has been sent to your email address</li>
+                            <li>You will receive tracking information once your order ships</li>
+                            <li>Expected delivery: 5-7 business days</li>
+                            <li>You can track your order from your account dashboard</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <aside class="confirmation-sidebar">
+                    <div class="need-help">
+                        <h3>Need Help?</h3>
+                        <p>If you have any questions about your order, please contact our customer support team.</p>
+                        <div class="support-contacts">
+                            <div class="contact-item">
+                                <strong>Email:</strong>
+                                <a href="mailto:support@nifemsstore.com">support@nifemsstore.com</a>
+                            </div>
+                            <div class="contact-item">
+                                <strong>Phone:</strong>
+                                <a href="tel:+2348000000000">+234 800 000 0000</a>
+                            </div>
+                            <div class="contact-item">
+                                <strong>Live Chat:</strong>
+                                <a href="#">Start Chat</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="order-actions">
+                        <a href="/pages/customer/home.html" class="btn btn-primary">Continue Shopping</a>
+                        <a href="/pages/customer/orders.html" class="btn btn-secondary">View My Orders</a>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <div id="footer-container"></div>
+
+    <script type="module" src="../../js/components/header.js"></script>
+    <script type="module" src="../../js/components/footer.js"></script>
+    <script type="module" src="../../js/pages/customer/order-confirmation.js"></script>
+</body>
+</html>

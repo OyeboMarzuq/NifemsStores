@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Login to NifemsStore - Your trusted multi-vendor marketplace">
+  <title>Login - NifemsStore</title>
+  
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/auth.css">
+</head>
+<body>
+  <div class="auth-page">
+    <div class="auth-container">
+      <!-- Header -->
+      <div class="auth-header">
+        <div class="auth-logo">🛍️</div>
+        <h1 class="auth-title">Welcome Back</h1>
+        <p class="auth-subtitle">Sign in to your NifemsStore account</p>
+      </div>
+
+      <!-- Alert Messages -->
+      <div id="alert-container"></div>
+
+      <!-- Login Form -->
+      <form id="login-form" class="auth-form" novalidate>
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="your@email.com"
+            required
+          >
+          <span class="form-error" id="email-error"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Enter your password"
+            required
+          >
+          <span class="form-error" id="password-error"></span>
+        </div>
+
+        <!-- Remember Me -->
+        <div class="remember-me">
+          <input type="checkbox" id="remember" name="remember">
+          <label for="remember">Remember me</label>
+        </div>
+
+        <!-- Forgot Password -->
+        <div class="forgot-password">
+          <a href="#reset-password">Forgot password?</a>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="auth-submit">
+          <span class="btn-text">Sign In</span>
+          <span class="btn-spinner spinner" style="display: none;"></span>
+        </button>
+      </form>
+
+      <!-- Divider -->
+      <div class="auth-divider">
+        <div class="auth-divider-text">or</div>
+      </div>
+
+      <!-- Social Login -->
+      <div class="social-login">
+        <button type="button" class="social-btn">
+          <span class="social-btn-icon">f</span>
+          Facebook
+        </button>
+        <button type="button" class="social-btn">
+          <span class="social-btn-icon">G</span>
+          Google
+        </button>
+      </div>
+
+      <!-- Footer -->
+      <div class="auth-footer">
+        Don't have an account? <a href="register.html">Sign up</a>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="../js/pages/auth/login.js"></script>
+</body>
+</html>
