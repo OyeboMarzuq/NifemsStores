@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36811.4
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{75BA31EF-16D6-4082-86A1-0E3F082B1886}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{3F504B5E-C4A2-401D-BB86-77D17CA36405}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NifemsStores.Application", "Nifem'sStore.Application\NifemsStores.Application.csproj", "{BA141B37-BCB1-46E3-8B98-B3970807191D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NifemsStores.Domain", "Nifem'sStore.Domain\NifemsStores.Domain.csproj", "{D29070A3-C9AD-4D7F-BDBF-093531E3C7E1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NifemsStoresPersistence", "Nifem'sStore.Persistence\NifemsStoresPersistence.csproj", "{EC74E5C5-1904-45D5-B925-962AB6CD7D2E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NifemsStores.WebAPI", "Nifem'sStore\NifemsStores.WebAPI.csproj", "{829CAF67-49ED-4298-8D2F-3A2E147CAB6F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BA141B37-BCB1-46E3-8B98-B3970807191D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA141B37-BCB1-46E3-8B98-B3970807191D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA141B37-BCB1-46E3-8B98-B3970807191D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA141B37-BCB1-46E3-8B98-B3970807191D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D29070A3-C9AD-4D7F-BDBF-093531E3C7E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D29070A3-C9AD-4D7F-BDBF-093531E3C7E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D29070A3-C9AD-4D7F-BDBF-093531E3C7E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D29070A3-C9AD-4D7F-BDBF-093531E3C7E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC74E5C5-1904-45D5-B925-962AB6CD7D2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC74E5C5-1904-45D5-B925-962AB6CD7D2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC74E5C5-1904-45D5-B925-962AB6CD7D2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC74E5C5-1904-45D5-B925-962AB6CD7D2E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{829CAF67-49ED-4298-8D2F-3A2E147CAB6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{829CAF67-49ED-4298-8D2F-3A2E147CAB6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{829CAF67-49ED-4298-8D2F-3A2E147CAB6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{829CAF67-49ED-4298-8D2F-3A2E147CAB6F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{BA141B37-BCB1-46E3-8B98-B3970807191D} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{D29070A3-C9AD-4D7F-BDBF-093531E3C7E1} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{EC74E5C5-1904-45D5-B925-962AB6CD7D2E} = {75BA31EF-16D6-4082-86A1-0E3F082B1886}
+		{829CAF67-49ED-4298-8D2F-3A2E147CAB6F} = {3F504B5E-C4A2-401D-BB86-77D17CA36405}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7D2A6EF8-13BC-4141-A4D7-97B2C4CC3636}
+	EndGlobalSection
+EndGlobal

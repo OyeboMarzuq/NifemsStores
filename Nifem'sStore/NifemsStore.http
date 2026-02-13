@@ -1,0 +1,6 @@
+@Nifem_sStore_HostAddress = http://localhost:5295
+
+GET {{Nifem_sStore_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
