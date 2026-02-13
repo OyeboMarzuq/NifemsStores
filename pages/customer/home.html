@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Shop quality products from trusted vendors on NifemsStore">
+  <title>Products - NifemsStore Marketplace</title>
+  
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/components.css">
+  <link rel="stylesheet" href="../../css/layout.css">
+  <link rel="stylesheet" href="../../css/customer.css">
+</head>
+<body>
+  <!-- Header -->
+  <header id="header"></header>
+
+  <main>
+    <div class="page-container">
+      <!-- Breadcrumb -->
+      <nav class="breadcrumb" aria-label="breadcrumb">
+        <span class="breadcrumb-item"><a href="/pages/customer/home.html">Home</a></span>
+        <span class="breadcrumb-separator">/</span>
+        <span class="breadcrumb-item active">Products</span>
+      </nav>
+
+      <!-- Page Header -->
+      <div class="page-header">
+        <h1 class="page-title">Discover Products</h1>
+        <p class="page-subtitle">Browse our selection of quality products from trusted vendors</p>
+      </div>
+
+      <!-- Search & Filter Bar -->
+      <div class="search-filter-bar">
+        <div class="search-box">
+          <span class="search-box-icon">🔍</span>
+          <input 
+            type="text" 
+            id="product-search" 
+            placeholder="Search products..." 
+            class="search-input"
+          >
+        </div>
+        <button id="filter-toggle" class="filter-toggle-btn">🔽 Filters</button>
+      </div>
+
+      <!-- Main Content -->
+      <div class="layout-with-sidebar">
+        <!-- Filters Sidebar -->
+        <aside class="filters-section" id="filters-sidebar">
+          <h3 class="filter-title">Filters</h3>
+
+          <!-- Search Filter -->
+          <div class="filter-group">
+            <div class="filter-title">Search</div>
+            <input 
+              type="text" 
+              id="filter-search" 
+              placeholder="Product name..."
+              class="w-full p-sm"
+              style="border: 1px solid var(--border-color); border-radius: var(--radius-md);"
+            >
+          </div>
+
+          <!-- Category Filter -->
+          <div class="filter-group">
+            <div class="filter-title">Category</div>
+            <div class="filter-options">
+              <label class="filter-option">
+                <input type="checkbox" name="category" value="electronics">
+                <label style="margin: 0;">Electronics</label>
+              </label>
+              <label class="filter-option">
+                <input type="checkbox" name="category" value="clothing">
+                <label style="margin: 0;">Clothing</label>
+              </label>
+              <label class="filter-option">
+                <input type="checkbox" name="category" value="home">
+                <label style="margin: 0;">Home & Garden</label>
+              </label>
+              <label class="filter-option">
+                <input type="checkbox" name="category" value="food">
+                <label style="margin: 0;">Food & Beverage</label>
+              </label>
+              <label class="filter-option">
+                <input type="checkbox" name="category" value="sports">
+                <label style="margin: 0;">Sports & Outdoors</label>
+              </label>
+            </div>
+          </div>
+
+          <!-- Price Filter -->
+          <div class="filter-group">
+            <div class="filter-title">Price Range</div>
+            <div class="filter-range">
+              <input 
+                type="number" 
+                id="price-min" 
+                placeholder="Min" 
+                min="0"
+              >
+              <input 
+                type="number" 
+                id="price-max" 
+                placeholder="Max" 
+                min="0"
+              >
+            </div>
+          </div>
+
+          <!-- Rating Filter -->
+          <div class="filter-group">
+            <div class="filter-title">Rating</div>
+            <div class="filter-options">
+              <label class="filter-option">
+                <input type="checkbox" name="rating" value="4">
+                <label style="margin: 0;">4★ & up</label>
+              </label>
+              <label class="filter-option">
+                <input type="checkbox" name="rating" value="3">
+                <label style="margin: 0;">3★ & up</label>
+              </label>
+              <label class="filter-option">
+                <input type="checkbox" name="rating" value="2">
+                <label style="margin: 0;">2★ & up</label>
+              </label>
+              <label class="filter-option">
+                <input type="checkbox" name="rating" value="1">
+                <label style="margin: 0;">1★ & up</label>
+              </label>
+            </div>
+          </div>
+
+          <!-- Availability Filter -->
+          <div class="filter-group">
+            <div class="filter-title">Availability</div>
+            <div class="filter-options">
+              <label class="filter-option">
+                <input type="checkbox" name="availability" value="in-stock">
+                <label style="margin: 0;">In Stock</label>
+              </label>
+              <label class="filter-option">
+                <input type="checkbox" name="availability" value="on-sale">
+                <label style="margin: 0;">On Sale</label>
+              </label>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Products Area -->
+        <div class="products-section">
+          <!-- Products Header Controls -->
+          <div class="products-header">
+            <h2 class="products-title">All Products</h2>
+            <div class="products-controls">
+              <div class="view-toggle">
+                <button class="view-toggle-btn active" data-view="grid" title="Grid view">⊞</button>
+                <button class="view-toggle-btn" data-view="list" title="List view">≡</button>
+              </div>
+              <select id="sort-select" class="sort-select">
+                <option value="newest">Newest</option>
+                <option value="price-asc">Price: Low to High</option>
+                <option value="price-desc">Price: High to Low</option>
+                <option value="rating">Highest Rated</option>
+                <option value="popular">Most Popular</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Products Grid -->
+          <div id="products-container" class="products-container">
+            <!-- Products will be loaded here -->
+            <div class="skeleton" style="aspect-ratio: 1; border-radius: var(--radius-lg);"></div>
+            <div class="skeleton" style="aspect-ratio: 1; border-radius: var(--radius-lg);"></div>
+            <div class="skeleton" style="aspect-ratio: 1; border-radius: var(--radius-lg);"></div>
+            <div class="skeleton" style="aspect-ratio: 1; border-radius: var(--radius-lg);"></div>
+          </div>
+
+          <!-- Pagination -->
+          <nav class="pagination" id="pagination-container" aria-label="pagination">
+            <!-- Pagination will be generated here -->
+          </nav>
+
+          <!-- Empty State -->
+          <div id="empty-state" class="empty-state hidden">
+            <div class="empty-state-icon">📦</div>
+            <h3 class="empty-state-title">No Products Found</h3>
+            <p class="empty-state-description">Try adjusting your filters or search terms</p>
+            <button id="reset-filters-btn" class="btn btn-primary">Reset Filters</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer id="footer"></footer>
+
+  <!-- Product Quick View Modal -->
+  <div id="quick-view-modal" class="modal-backdrop hidden">
+    <div class="modal" style="max-width: 600px;">
+      <div class="modal-header">
+        <h2 class="modal-title">Quick View</h2>
+        <button class="modal-close" aria-label="Close">✕</button>
+      </div>
+      <div class="modal-body" id="quick-view-content">
+        <!-- Quick view content will be loaded here -->
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="../../js/pages/customer/home.js"></script>
+</body>
+</html>
