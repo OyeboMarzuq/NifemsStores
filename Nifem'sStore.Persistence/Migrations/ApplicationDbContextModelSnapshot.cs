@@ -265,6 +265,38 @@ namespace NifemsStore.Persistence.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("NifemsStore.Domain.Entities.PaymentRequest", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime?>("DatePaid")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateRequested")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TransactionReference")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PaymentRequests");
+                });
+
             modelBuilder.Entity("NifemsStore.Domain.Entities.Product", b =>
                 {
                     b.Property<Guid>("Id")
@@ -800,7 +832,7 @@ namespace NifemsStore.Persistence.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("RecieptId")
+                    b.Property<Guid>("ReceiptId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("UnitPrice")
@@ -808,7 +840,7 @@ namespace NifemsStore.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RecieptId");
+                    b.HasIndex("ReceiptId");
 
                     b.ToTable("ReceiptItem");
                 });
@@ -983,13 +1015,13 @@ namespace NifemsStore.Persistence.Migrations
 
             modelBuilder.Entity("NifemsStores.Domain.Entities.ReceiptItem", b =>
                 {
-                    b.HasOne("NifemsStores.Domain.Entities.Receipt", "Reciept")
+                    b.HasOne("NifemsStores.Domain.Entities.Receipt", "Receipt")
                         .WithMany("ReceiptItems")
-                        .HasForeignKey("RecieptId")
+                        .HasForeignKey("ReceiptId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Reciept");
+                    b.Navigation("Receipt");
                 });
 
             modelBuilder.Entity("Report", b =>

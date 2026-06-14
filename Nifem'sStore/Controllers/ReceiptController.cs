@@ -1,14 +1,11 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using NifemsStore.Application.DTOs.RecieptDTO;
+﻿using Microsoft.AspNetCore.Mvc;
+using NifemsStore.Application.DTOs.ProductDTO;
 using NifemsStore.Application.Interfaces.IServices;
-using System.Security.Claims;
 
-namespace NifemsStore.Controllers
+namespace NifemsStores.API.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Route("api/[controller]")]
     public class ReceiptController : ControllerBase
     {
         private readonly IReceiptService _receiptService;
@@ -18,40 +15,17 @@ namespace NifemsStore.Controllers
             _receiptService = receiptService;
         }
 
-        private Guid GetUserId()
+        [HttpPost("generate-from-sale")]
+        public async Task<IActionResult> GenerateFromSale([FromBody] ProductSaleDto sale)
         {
-            return Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-        }
+            if (sale == null)
+                return BadRequest("Invalid sale data.");
 
-        private string GetUserName()
-        {
-            return User.FindFirstValue(ClaimTypes.Name) ?? "Unknown";
-        }
+            var (receipt, pdfBytes) =
+                await _receiptService.GenerateFromProductSaleAsync(sale);
 
-        private bool IsAdmin()
-        {
-            return User.IsInRole("ADMIN");
-        }
-
-        [HttpPost("create")]
-        public async Task<IActionResult> CreateReceipt([FromBody] CreateReceiptDto dto)
-        {
-            var response = await _receiptService.CreateReceipt(dto, GetUserId(), GetUserName());
-            return StatusCode(response.StatusCode ?? 500, response);
-        }
-
-        [HttpGet("my-receipts")]
-        public async Task<IActionResult> GetMyReceipts()
-        {
-            var response = await _receiptService.GetMyReceipts(GetUserId());
-            return StatusCode(response.StatusCode ?? 500, response);
-        }
-
-        [HttpGet("{receiptId}")]
-        public async Task<IActionResult> GetReceiptById(Guid receiptId)
-        {
-            var response = await _receiptService.GetReceiptById(receiptId, GetUserId(), IsAdmin());
-            return StatusCode(response.StatusCode ?? 500, response);
+            return File(pdfBytes, "application/pdf",
+                $"{receipt.ReceiptNumber}.pdf");
         }
     }
 }

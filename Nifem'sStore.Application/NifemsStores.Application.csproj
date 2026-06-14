@@ -8,12 +8,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Folder Include="Interfaces\IRepository\" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<PackageReference Include="FluentValidation" Version="12.1.1" />
 		<PackageReference Include="Microsoft.Extensions.Options" Version="9.0.4" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
 	</ItemGroup>
 
 	<ItemGroup>

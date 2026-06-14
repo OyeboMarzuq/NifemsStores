@@ -12,7 +12,7 @@ namespace NifemsStores.Domain.Entities
         public decimal UnitPrice { get; set; }
         [NotMapped]
         public decimal SubTotal => Quantity * UnitPrice;
-        public Guid RecieptId { get; set; }
-        public Receipt? Reciept { get; set; }
+        public Guid ReceiptId { get; set; }
+        public Receipt? Receipt { get; set; }
     }
 }

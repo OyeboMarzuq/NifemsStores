@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{75BA31EF-16D6-4082-86A1-0E3F082B1886}"
+	ProjectSection(SolutionItems) = preProject
+		Nifem'sStore.Persistence\Context\RoleSeeder.cs = Nifem'sStore.Persistence\Context\RoleSeeder.cs
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{3F504B5E-C4A2-401D-BB86-77D17CA36405}"
 EndProject

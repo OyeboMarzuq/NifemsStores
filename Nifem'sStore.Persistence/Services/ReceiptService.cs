@@ -1,164 +1,156 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using NifemsStore.Application.DTOs.ProductDTO;
 using NifemsStore.Application.DTOs.RecieptDTO;
+using NifemsStore.Application.Interfaces.IRepository;
 using NifemsStore.Application.Interfaces.IServices;
 using NifemsStores.Application.Common.Response;
 using NifemsStores.Domain.Entities;
 using NifemsStores.Persistence.Context;
+using QuestPDF.Fluent;
 
 namespace NifemsStores.Persistence.Services
 {
     public class ReceiptService : IReceiptService
     {
         private readonly ApplicationDbContext _context;
-        private readonly ILogger<ReceiptService> _logger;
+        private readonly IReceiptRepository _receiptRepository;
 
-        public ReceiptService(ApplicationDbContext context, ILogger<ReceiptService> logger)
+        public ReceiptService(ApplicationDbContext context, IReceiptRepository receiptRepository)
         {
             _context = context;
-            _logger = logger;
+            _receiptRepository = receiptRepository;
         }
 
-        public async Task<BaseResponse<ReceiptDto>> CreateReceipt(CreateReceiptDto dto, Guid userId, string userName)
+        public async Task<(ReceiptDto Receipt, byte[] PdfBytes)> GenerateFromProductSaleAsync(ProductSaleDto sale)
+        {
+            if (sale == null || sale.ProductSaleItemDto == null || !sale.ProductSaleItemDto.Any())
+                throw new ArgumentException("Sale or Sale Items are empty.");
+
+            var receiptNumber = $"ASR-{DateTime.UtcNow:yyyyMMdd}-{DateTime.UtcNow.Ticks.ToString()[^6..]}";
+
+            var receiptEntity = new Receipt
+            {
+                ReceiptNumber = receiptNumber,
+                UserId = Guid.Empty,
+                UserName = sale.CustomerName,
+                Discount = sale.Discount ?? 0,
+                TotalAmount = sale.TotalAmount,
+                NetAmount = sale.TotalAmount - (sale.Discount ?? 0),
+                PaymentType = sale.PaymentMethod,
+                CreatedAt = DateTime.UtcNow,
+
+                ReceiptItems = sale.ProductSaleItemDto.Select(item => new ReceiptItem
+                {
+                    ProductName = item.ProductName,
+                    Quantity = item.Quantity,
+                    UnitPrice = item.UnitPrice
+                }).ToList()
+            };
+
+            await _receiptRepository.GenerateReceiptAsync(receiptEntity);
+            var receiptDto = new ReceiptDto
+            {
+                ReceiptId = receiptEntity.Id,
+                ReceiptNumber = receiptEntity.ReceiptNumber,
+                UserName = receiptEntity.UserName,
+                TotalAmount = receiptEntity.TotalAmount,
+                NetAmount = receiptEntity.NetAmount,
+                Discount = receiptEntity.Discount,
+                PaymentType = receiptEntity.PaymentType,
+                ReceiptItems = receiptEntity.ReceiptItems.Select(r => new ReceiptItemDto
+                {
+                    ProductName = r.ProductName,
+                    Quantity = r.Quantity,
+                    UnitPrice = r.UnitPrice,
+                    SubTotal = r.SubTotal
+                }).ToList()
+            };
+
+            var qrImageData = GenerateQrCodeImage(receiptNumber);
+            var pdfBytes = GeneratePdfReceipt(receiptEntity, qrImageData);
+            return (receiptDto, pdfBytes);
+        }
+
+        private byte[] GenerateQrCodeImage(string receiptNumber)
+        {
+            throw new NotImplementedException();
+        }
+
+        private byte[] GeneratePdfReceipt(Receipt receipt, byte[] qrImageData)
         {
             try
             {
-                if (dto.Items == null || dto.Items.Count == 0)
-                    return BaseResponse<ReceiptDto>.Failure("Receipt must contain at least one item", statusCode: 400);
-
-                var totalAmount = dto.Items.Sum(x => x.Quantity * x.UnitPrice);
-                var netAmount = totalAmount - dto.Discount;
-
-                if (netAmount < 0)
-                    return BaseResponse<ReceiptDto>.Failure("Discount cannot exceed total amount", statusCode: 400);
-
-                var receipt = new Receipt
+                var pdf = Document.Create(container =>
                 {
-                    ReceiptNumber = $"RCPT-{DateTime.UtcNow.Ticks}",
-                    TotalAmount = totalAmount,
-                    Discount = dto.Discount,
-                    NetAmount = netAmount,
-                    UserId = userId,
-                    UserName = userName,
-                    PaymentType = dto.PaymentType,
-                    ReceiptItems = dto.Items.Select(x => new ReceiptItem
+                    container.Page(page =>
                     {
-                        ProductName = x.ProductName,
-                        Quantity = x.Quantity,
-                        Description = x.Description,
-                        UnitPrice = x.UnitPrice
-                    }).ToList()
-                };
+                        page.Margin(20);
 
-                await _context.Receipts.AddAsync(receipt);
-                await _context.SaveChangesAsync();
+                        page.Content().Column(column =>
+                        {
+                            column.Item().AlignCenter().Text("NIFEM'S STORE").Bold().FontSize(16);
+                            column.Item().AlignCenter().Text("SALES RECEIPT").Bold();
 
-                var response = new ReceiptDto
-                {
-                    ReceiptId = receipt.Id,
-                    ReceiptNumber = receipt.ReceiptNumber,
-                    TotalAmount = receipt.TotalAmount,
-                    Discount = receipt.Discount,
-                    NetAmount = receipt.NetAmount,
-                    UserName = receipt.UserName,
-                    PaymentType = receipt.PaymentType,
-                    CreatedAt = receipt.CreatedAt,
-                    ReceiptItems = receipt.ReceiptItems.Select(i => new ReceiptItemDto
-                    {
-                        ProductName = i.ProductName,
-                        Quantity = i.Quantity,
-                        UnitPrice = i.UnitPrice,
-                        SubTotal = i.SubTotal
-                    }).ToList()
-                };
+                            column.Item().PaddingVertical(10);
 
-                return BaseResponse<ReceiptDto>.Succes(response, "Receipt created successfully", 201);
+                            column.Item().Text($"Customer: {receipt.UserName ?? "Walk-in Customer"}");
+                            column.Item().Text($"Payment: {receipt.PaymentType}");
+                            column.Item().Text($"Receipt #: {receipt.ReceiptNumber}");
+                            column.Item().Text($"Date: {receipt.CreatedAt:MMM dd, yyyy HH:mm}");
+
+                            column.Item().PaddingVertical(10);
+
+                            int serial = 1;
+                            foreach (var item in receipt.ReceiptItems)
+                            {
+                                column.Item().Text($"{serial}. {item.ProductName}");
+                                column.Item().Text($"Qty: {item.Quantity} | Unit: ₦{item.UnitPrice:N2} | Total: ₦{item.SubTotal:N2}");
+                                serial++;
+                            }
+
+                            column.Item().PaddingVertical(10);
+
+                            if (receipt.Discount > 0)
+                            {
+                                var subtotal = receipt.ReceiptItems.Sum(x => x.SubTotal);
+
+                                column.Item().Text($"Subtotal: ₦{subtotal:N2}");
+                                column.Item().Text($"Discount: -₦{receipt.Discount:N2}");
+                            }
+
+                            column.Item().Text($"TOTAL: ₦{receipt.NetAmount:N2}").Bold();
+
+                            column.Item().PaddingVertical(10);
+
+                            if (qrImageData != null && qrImageData.Length > 0)
+                                column.Item().Height(80).Image(qrImageData);
+
+                            column.Item().AlignCenter().Text("Thank you for your purchase!");
+                        });
+                    });
+                });
+
+                return pdf.GeneratePdf();
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error creating receipt");
-                return BaseResponse<ReceiptDto>.Failure("Something went wrong", statusCode: 500);
+                throw new InvalidOperationException("Failed to generate PDF receipt.", ex);
             }
         }
 
-        public async Task<BaseResponse<List<ReceiptDto>>> GetMyReceipts(Guid userId)
+        private string TruncateText(string text, int maxLength)
         {
-            try
-            {
-                var receipts = await _context.Receipts
-                    .Include(x => x.ReceiptItems)
-                    .Where(x => x.UserId == userId)
-                    .OrderByDescending(x => x.CreatedAt)
-                    .ToListAsync();
+            if (string.IsNullOrWhiteSpace(text))
+                return string.Empty;
 
-                var response = receipts.Select(r => new ReceiptDto
-                {
-                    ReceiptId = r.Id,
-                    ReceiptNumber = r.ReceiptNumber,
-                    TotalAmount = r.TotalAmount,
-                    Discount = r.Discount,
-                    NetAmount = r.NetAmount,
-                    UserName = r.UserName,
-                    PaymentType = r.PaymentType,
-                    CreatedAt = r.CreatedAt,
-                    ReceiptItems = r.ReceiptItems.Select(i => new ReceiptItemDto
-                    {
-                        ProductName = i.ProductName,
-                        Quantity = i.Quantity,
-                        UnitPrice = i.UnitPrice,
-                        SubTotal = i.SubTotal
-                    }).ToList()
-                }).ToList();
+            if (maxLength <= 3)
+                return text.Length <= maxLength ? text : text.Substring(0, maxLength);
 
-                return BaseResponse<List<ReceiptDto>>.Succes(response, "Receipts retrieved successfully", 200);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error retrieving receipts");
-                return BaseResponse<List<ReceiptDto>>.Failure("Something went wrong", statusCode: 500);
-            }
-        }
+            if (text.Length <= maxLength)
+                return text;
 
-        public async Task<BaseResponse<ReceiptDto>> GetReceiptById(Guid receiptId, Guid userId, bool isAdmin)
-        {
-            try
-            {
-                var receipt = await _context.Receipts
-                    .Include(x => x.ReceiptItems)
-                    .FirstOrDefaultAsync(x => x.Id == receiptId);
-
-                if (receipt == null)
-                    return BaseResponse<ReceiptDto>.Failure("Receipt not found", statusCode: 404);
-
-                if (!isAdmin && receipt.UserId != userId)
-                    return BaseResponse<ReceiptDto>.Failure("Unauthorized access", statusCode: 403);
-
-                var response = new ReceiptDto
-                {
-                    ReceiptId = receipt.Id,
-                    ReceiptNumber = receipt.ReceiptNumber,
-                    TotalAmount = receipt.TotalAmount,
-                    Discount = receipt.Discount,
-                    NetAmount = receipt.NetAmount,
-                    UserName = receipt.UserName,
-                    PaymentType = receipt.PaymentType,
-                    CreatedAt = receipt.CreatedAt,
-                    ReceiptItems = receipt.ReceiptItems.Select(i => new ReceiptItemDto
-                    {
-                        ProductName = i.ProductName,
-                        Quantity = i.Quantity,
-                        UnitPrice = i.UnitPrice,
-                        SubTotal = i.SubTotal
-                    }).ToList()
-                };
-
-                return BaseResponse<ReceiptDto>.Succes(response, "Receipt retrieved successfully", 200);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error retrieving receipt");
-                return BaseResponse<ReceiptDto>.Failure("Something went wrong", statusCode: 500);
-            }
+            return text.Substring(0, maxLength - 3) + "...";
         }
     }
 }

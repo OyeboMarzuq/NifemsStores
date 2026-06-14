@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using NifemsStore.Application.Interfaces.IRepository;
 using NifemsStore.Application.Interfaces.IServices;
 using NifemsStore.Persistence.Services;
 using NifemsStores.Application.DTOs;
@@ -12,6 +13,7 @@ using NifemsStores.Application.Validators;
 using NifemsStores.Domain.Entities;
 using NifemsStores.Domain.Settings.Email;
 using NifemsStores.Persistence.Context;
+using NifemsStores.Persistence.Repositories;
 using NifemsStores.Persistence.Services;
 using Serilog;
 using System.Text;
@@ -66,10 +68,18 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddHttpClient<PayStackService>(client =>
+{
+    client.BaseAddress = new Uri("https://api.paystack.co/");
+    client.DefaultRequestHeaders.Add("Authorization", $"Bearer {builder.Configuration["Paystack:SecretKey"]}");
+});
+
+builder.Services.AddScoped<IPayStackService, PayStackService>();
+
 // Add Identity and Authorization services
 builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>(options =>
 {
-    options.User.RequireUniqueEmail = true;
+    options.User.RequireUniqueEmail = true; 
 })
 .AddEntityFrameworkStores<ApplicationDbContext>()
 .AddDefaultTokenProviders();
@@ -78,11 +88,13 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>(options =>
 // Register repository and services
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IJwtService, JwtService>();
+builder.Services.AddScoped<IPayStackService, PayStackService>();
 builder.Services.AddScoped<IBrandService, BrandService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IAuditLogService, AuditLogService>();
 builder.Services.AddScoped<ICartService, CartService>();
+builder.Services.AddScoped<IReceiptRepository, ReceiptRepository>();
 builder.Services.AddScoped<IReceiptService, ReceiptService>();
 builder.Services.AddScoped<IReportService, ReportService>();
 builder.Services.AddScoped<IPurchaseReportService, PurchaseReportService>();
@@ -138,7 +150,7 @@ using (var scope = app.Services.CreateScope())
 app.UseSwagger();
 app.UseSwaggerUI(options =>
 {
-    options.SwaggerEndpoint("/swagger/v1/swagger.json", "ACBackendAPI v1");
+    options.SwaggerEndpoint("/swagger/v1/swagger.json", "Niem'sStor v1");
     options.DocumentTitle = "Nifems Collection Docs";
 });
 

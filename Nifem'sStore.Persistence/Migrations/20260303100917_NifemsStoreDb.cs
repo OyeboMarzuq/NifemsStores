@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace NifemsStore.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class NifemiDb : Migration
+    public partial class NifemsStoreDb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -131,6 +131,23 @@ namespace NifemsStore.Persistence.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Categories", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PaymentRequests",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TransactionReference = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DatePaid = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DateRequested = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PaymentRequests", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -397,7 +414,7 @@ namespace NifemsStore.Persistence.Migrations
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UnitPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    RecieptId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ReceiptId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
@@ -407,8 +424,8 @@ namespace NifemsStore.Persistence.Migrations
                 {
                     table.PrimaryKey("PK_ReceiptItem", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ReceiptItem_Receipts_RecieptId",
-                        column: x => x.RecieptId,
+                        name: "FK_ReceiptItem_Receipts_ReceiptId",
+                        column: x => x.ReceiptId,
                         principalTable: "Receipts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -588,9 +605,9 @@ namespace NifemsStore.Persistence.Migrations
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ReceiptItem_RecieptId",
+                name: "IX_ReceiptItem_ReceiptId",
                 table: "ReceiptItem",
-                column: "RecieptId");
+                column: "ReceiptId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reports_VendorId",
@@ -627,6 +644,9 @@ namespace NifemsStore.Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "CartItems");
+
+            migrationBuilder.DropTable(
+                name: "PaymentRequests");
 
             migrationBuilder.DropTable(
                 name: "PurchaseReports");

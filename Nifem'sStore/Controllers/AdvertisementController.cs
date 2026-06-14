@@ -16,7 +16,6 @@ namespace NifemsStore.Controllers
             _advertisementService = advertisementService;
         }
 
-        // ✅ Only Admin should create ads
         [Authorize(Roles = "ADMIN")]
         [HttpPost("create")]
         public async Task<IActionResult> Create([FromBody] CreateAdvertisementDto dto)

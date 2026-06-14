@@ -20,6 +20,7 @@ namespace NifemsStores.Persistence.Context
         public DbSet<Cart> Carts { get; set; }
         public DbSet<Advertisement> Advertisements { get; set; }
         public DbSet<Receipt> Receipts { get; set; }
+        public DbSet<PaymentRequest> PaymentRequests { get; set; }
         public DbSet<Report> Reports { get; set; }
         public DbSet<PurchaseReport> PurchaseReports { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
