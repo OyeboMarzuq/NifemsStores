@@ -1,6 +1,6 @@
-﻿using NifemsStore.Application.Common.RequestModel.PaymentDTO;
+using NifemsStores.Application.Common.RequestModel.PaymentDTO;
 using NifemsStores.Application.Common.Response;
-using NifemsStores.Application.Common.Response;
+using NifemsStores.Application.DTOs;
 
 namespace NifemsStores.Application.Interfaces.IServices
 {
@@ -10,5 +10,6 @@ namespace NifemsStores.Application.Interfaces.IServices
         Task<BaseResponse<VerifyPaymentRequestDto>> VerifyPaymentAsync(string reference);
         Task ProcessWebhookAsync(string json);
         bool ValidateWebhookSignature(string json, string signature);
+        Task<string?> EnsureSplitAsync();
     }
 }

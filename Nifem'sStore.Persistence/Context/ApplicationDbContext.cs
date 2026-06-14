@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client;
-using NifemsStores.Domain.Entities;
 using NifemsStores.Domain.Entities;
 
 namespace NifemsStores.Persistence.Context
@@ -24,6 +22,7 @@ namespace NifemsStores.Persistence.Context
         public DbSet<Report> Reports { get; set; }
         public DbSet<PurchaseReport> PurchaseReports { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
+        public DbSet<PaystackSplit> PaystackSplits { get; set; }
 
 
 

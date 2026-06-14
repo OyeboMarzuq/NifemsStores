@@ -150,6 +150,10 @@ using (var scope = app.Services.CreateScope())
     var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
     var seeder = new DataSeeder(dbContext, userManager, roleManager);
     await seeder.SeedAdminAsync();
+
+    // Ensure Paystack split is created/cached on startup
+    var paystackService = services.GetRequiredService<IPayStackService>();
+    await paystackService.EnsureSplitAsync();
 }
 
 app.UseSwagger();
