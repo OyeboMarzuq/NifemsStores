@@ -1,6 +1,6 @@
 ﻿using NifemsStore.Domain.Enum;
 
-namespace NifemsStore.Application.DTOs.ReportDTO
+namespace NifemsStores.Application.DTOs.ReportDTO
 {
     public class CreateReportDto
     {

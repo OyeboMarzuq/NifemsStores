@@ -1,4 +1,4 @@
-﻿using NifemsStores.Domain.Enum;
+using NifemsStores.Domain.Enum;
 using Microsoft.AspNetCore.Identity;
 
 namespace NifemsStores.Persistence.Context
@@ -7,7 +7,7 @@ namespace NifemsStores.Persistence.Context
     {
         public static async Task SeedRolesAsync(RoleManager<IdentityRole<Guid>> roleManager)
         {
-            var roles = new[] { Role.Admin, Role.SuperAdmin, Role.User };
+            var roles = new[] { Role.Admin, Role.SuperAdmin, Role.Customer };
 
             foreach (var role in roles)
             {

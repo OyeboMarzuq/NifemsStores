@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NifemsStore.Application.DTOs.BrandDTO
+namespace NifemsStores.Application.DTOs.BrandDTO
 {
     public class CreateBrandRequestDto
     {

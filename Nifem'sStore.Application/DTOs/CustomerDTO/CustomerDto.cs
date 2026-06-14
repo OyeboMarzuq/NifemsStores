@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NifemsStore.Application.DTOs.UserDTO
+namespace NifemsStores.Application.DTOs.UserDTO
 {
     public class CustomerDto
     {

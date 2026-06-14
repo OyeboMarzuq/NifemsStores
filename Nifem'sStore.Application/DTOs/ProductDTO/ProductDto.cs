@@ -1,11 +1,11 @@
-﻿using NifemsStore.Domain.Enum;
+using NifemsStores.Domain.Enum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NifemsStore.Application.DTOs.ProductDTO
+namespace NifemsStores.Application.DTOs.ProductDTO
 {
     public class ProductDto
     {
@@ -31,9 +31,6 @@ namespace NifemsStore.Application.DTOs.ProductDTO
         public string? BrandName { get; set; }
 
         public string? ProductImageUrl { get; set; }
-
-        public Guid VendorId { get; set; }
-        public string VendorUserName { get; set; } = default!;
     }
 
     public class ProductFilterDto

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NifemsStore.Application.DTOs.AdvertisementDTO
+namespace NifemsStores.Application.DTOs.AdvertisementDTO
 {
     public class CreateAdvertisementDto
     {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace NifemsStore.Controllers
+namespace NifemsStores.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

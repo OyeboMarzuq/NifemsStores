@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using NifemsStore.Application.DTOs.BrandDTO;
-using NifemsStore.Application.Interfaces.IServices;
-using NifemsStore.Domain.Entities;
+using NifemsStores.Application.DTOs.BrandDTO;
+using NifemsStores.Application.Interfaces.IServices;
+using NifemsStores.Domain.Entities;
 using NifemsStores.Application.Common.Response;
 using NifemsStores.Persistence.Context;
 
-namespace NifemsStore.Persistence.Services
+namespace NifemsStores.Persistence.Services
 {
     public class BrandService : IBrandService
     {
@@ -52,7 +52,7 @@ namespace NifemsStore.Persistence.Services
                     Description = brand.Description,
                 };
 
-                return BaseResponse<BrandDto>.Succes(brandDto, "Brand created successfully", 201);
+                return BaseResponse<BrandDto>.Success(brandDto, "Brand created successfully", 201);
             }
             catch (Exception ex)
             {
@@ -79,7 +79,7 @@ namespace NifemsStore.Persistence.Services
                     Description = b.Description,
                 }).ToList();
 
-                return BaseResponse<List<BrandDto>>.Succes(brandDtos, "Brands retrieved successfully", 200);
+                return BaseResponse<List<BrandDto>>.Success(brandDtos, "Brands retrieved successfully", 200);
             }
             catch (Exception ex)
             {
@@ -112,7 +112,7 @@ namespace NifemsStore.Persistence.Services
 
                 _logger.LogInformation("Brand retrieved successfully with Id: {BrandId}", id);
 
-                return BaseResponse<BrandDto>.Succes(brandDto, "Brand retrieved successfully", 200);
+                return BaseResponse<BrandDto>.Success(brandDto, "Brand retrieved successfully", 200);
             }
             catch (Exception ex)
             {
@@ -151,7 +151,7 @@ namespace NifemsStore.Persistence.Services
                     Description = brand.Description,
                 };
 
-                return BaseResponse<BrandDto>.Succes(brandDto, "Brand updated successfully", 200);
+                return BaseResponse<BrandDto>.Success(brandDto, "Brand updated successfully", 200);
             }
             catch (Exception ex)
             {
@@ -180,7 +180,7 @@ namespace NifemsStore.Persistence.Services
 
                 _logger.LogInformation("Brand deleted successfully with Id: {BrandId}", id);
 
-                return BaseResponse<bool>.Succes(true, "Brand deleted successfully", 200);
+                return BaseResponse<bool>.Success(true, "Brand deleted successfully", 200);
             }
             catch (Exception ex)
             {

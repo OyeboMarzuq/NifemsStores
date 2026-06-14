@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using NifemsStore.Application.DTOs.ProductDTO;
-using NifemsStore.Application.DTOs.RecieptDTO;
-using NifemsStore.Application.Interfaces.IRepository;
-using NifemsStore.Application.Interfaces.IServices;
+using NifemsStores.Application.DTOs.ProductDTO;
+using NifemsStores.Application.DTOs.RecieptDTO;
+using NifemsStores.Application.Interfaces.IRepository;
+using NifemsStores.Application.Interfaces.IServices;
 using NifemsStores.Application.Common.Response;
 using NifemsStores.Domain.Entities;
 using NifemsStores.Persistence.Context;

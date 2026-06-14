@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NifemsStore.Application.Common.RequestModel.PaymentDTO
+namespace NifemsStores.Application.Common.RequestModel.PaymentDTO
 {
     public class InitializePaymentRequestDto
     {

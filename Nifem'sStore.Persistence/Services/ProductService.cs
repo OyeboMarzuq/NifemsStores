@@ -1,11 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
-using NifemsStore.Application.DTOs;
-using NifemsStore.Application.DTOs.ProductDTO;
-using NifemsStore.Application.Helper;
-using NifemsStore.Application.Interfaces.IServices;
-using NifemsStore.Domain.Entities;
+using NifemsStores.Application.DTOs;
+using NifemsStores.Application.DTOs.ProductDTO;
+using NifemsStores.Application.Helper;
+using NifemsStores.Application.Interfaces.IServices;
+using NifemsStores.Domain.Entities;
 using NifemsStores.Application.Common.Response;
 using NifemsStores.Application.DTOs;
 using NifemsStores.Application.Interfaces.IServices;
@@ -30,13 +30,13 @@ namespace NifemsStores.Persistence.Services
             _cache = cache;
         }
 
-        public async Task<BaseResponse<CreateProductRequestDto>> CreateProduct(CreateProductRequestDto dto, Guid vendorId, string userName)
+        public async Task<BaseResponse<CreateProductRequestDto>> CreateProduct(CreateProductRequestDto dto, string performedBy)
         {
             try
             {
-                _logger.LogInformation("Creating product {Name} by vendor {VendorId}", dto.Name, vendorId);
+                _logger.LogInformation("Admin creating product {Name}", dto.Name);
 
-                var category = await _context.Categories.FirstOrDefaultAsync(x => x.Id == dto.CategoryId);
+                var category = await _context.Categories.FirstOrDefaultAsync(x => x.CategoryId == dto.CategoryId);
                 if (category == null)
                     return BaseResponse<CreateProductRequestDto>.Failure("Category not found", statusCode: 404);
 
@@ -49,12 +49,13 @@ namespace NifemsStores.Persistence.Services
                     Name = dto.Name,
                     Description = dto.Description,
                     UnitPrice = unitSellingPrice,
+                    PricePerPack = dto.PricePerPack,
+                    PackPriceMarkup = dto.PackPriceMarkup,
+                    TotalItemInPack = dto.TotalItemInPack,
                     CategoryId = dto.CategoryId,
                     BrandId = dto.BrandId,
                     ProductImageUrl = dto.ProductImageUrl,
                     QuantityInStock = dto.QuantityInStock,
-                    Vendor = vendorId,
-                    UserName = userName,
                 };
 
                 await _context.Products.AddAsync(product);
@@ -66,13 +67,13 @@ namespace NifemsStores.Persistence.Services
                     EntityName = "Product",
                     EntityId = product.ProductId.ToString(),
                     NewValues = JsonSerializer.Serialize(product),
-                    PerformedBy = userName,
-                    Role = "Vendor/Admin"
+                    PerformedBy = performedBy,
+                    Role = "Admin"
                 });
 
                 _logger.LogInformation("Product created successfully: {ProductId}", product.ProductId);
 
-                return BaseResponse<CreateProductRequestDto>.Succes(dto, "Product created successfully", 201);
+                return BaseResponse<CreateProductRequestDto>.Success(dto, "Product created successfully", 201);
             }
             catch (Exception ex)
             {
@@ -81,7 +82,7 @@ namespace NifemsStores.Persistence.Services
             }
         }
 
-        public async Task<BaseResponse<UpdateProductDto>> UpdateProduct(UpdateProductDto dto, Guid vendorId, bool isAdmin)
+        public async Task<BaseResponse<UpdateProductDto>> UpdateProduct(UpdateProductDto dto, string performedBy)
         {
             try
             {
@@ -89,9 +90,6 @@ namespace NifemsStores.Persistence.Services
 
                 if (product == null)
                     return BaseResponse<UpdateProductDto>.Failure("Product not found", statusCode: 404);
-
-                if (!isAdmin && product.Vendor != vendorId)
-                    return BaseResponse<UpdateProductDto>.Failure("You are not authorized to update this product", statusCode: 403);
 
                 var oldValues = JsonSerializer.Serialize(product);
 
@@ -118,13 +116,13 @@ namespace NifemsStores.Persistence.Services
                     EntityId = product.ProductId.ToString(),
                     OldValues = oldValues,
                     NewValues = JsonSerializer.Serialize(product),
-                    PerformedBy = vendorId.ToString(),
-                    Role = isAdmin ? "Admin" : "Vendor"
+                    PerformedBy = performedBy,
+                    Role = "Admin"
                 });
 
                 _logger.LogInformation("Product updated successfully: {ProductId}", product.ProductId);
 
-                return BaseResponse<UpdateProductDto>.Succes(dto, "Product updated successfully", 200);
+                return BaseResponse<UpdateProductDto>.Success(dto, "Product updated successfully", 200);
             }
             catch (Exception ex)
             {
@@ -133,7 +131,7 @@ namespace NifemsStores.Persistence.Services
             }
         }
 
-        public async Task<BaseResponse<string>> DeleteProduct(Guid productId, Guid vendorId, bool isAdmin)
+        public async Task<BaseResponse<string>> DeleteProduct(Guid productId, string performedBy)
         {
             try
             {
@@ -141,9 +139,6 @@ namespace NifemsStores.Persistence.Services
 
                 if (product == null)
                     return BaseResponse<string>.Failure("Product not found", statusCode: 404);
-
-                if (!isAdmin && product.Vendor != vendorId)
-                    return BaseResponse<string>.Failure("You are not authorized to delete this product", statusCode: 403);
 
                 var oldValues = JsonSerializer.Serialize(product);
 
@@ -156,13 +151,13 @@ namespace NifemsStores.Persistence.Services
                     EntityName = "Product",
                     EntityId = product.ProductId.ToString(),
                     OldValues = oldValues,
-                    PerformedBy = vendorId.ToString(),
-                    Role = isAdmin ? "Admin" : "Vendor"
+                    PerformedBy = performedBy,
+                    Role = "Admin"
                 });
 
                 _logger.LogWarning("Product deleted: {ProductId}", productId);
 
-                return BaseResponse<string>.Succes("Product deleted successfully", "Deleted", 200);
+                return BaseResponse<string>.Success("Product deleted successfully", "Deleted", 200);
             }
             catch (Exception ex)
             {
@@ -171,32 +166,24 @@ namespace NifemsStores.Persistence.Services
             }
         }
 
-        public async Task<BaseResponse<PaginatedResponse<ProductDto>>> GetAllProducts(ProductFilterRequestDto filter, Guid vendorId, bool isAdmin)
+        public async Task<BaseResponse<PaginatedResponse<ProductDto>>> GetAllProducts(ProductFilterRequestDto filter)
         {
             try
             {
                 // ✅ Cache Key (unique per vendor/admin and filters)
-                string cacheKey = $"products_{vendorId}_{isAdmin}_{filter.PageNumber}_{filter.PageSize}_{filter.CategoryId}_{filter.BrandId}_{filter.Search}";
+                string cacheKey = $"products_{filter.PageNumber}_{filter.PageSize}_{filter.CategoryId}_{filter.BrandId}_{filter.Search}";
 
                 // ✅ Check Cache
                 if (_cache.TryGetValue(cacheKey, out PaginatedResponse<ProductDto> cachedResponse))
                 {
                     _logger.LogInformation("Products retrieved from cache: {CacheKey}", cacheKey);
-
-                    return BaseResponse<PaginatedResponse<ProductDto>>
-                        .Succes(cachedResponse, "Products retrieved successfully (cached)", 200);
+                    return BaseResponse<PaginatedResponse<ProductDto>>.Success(cachedResponse, "Products retrieved successfully (cached)", 200);
                 }
 
                 var query = _context.Products
                     .Include(x => x.Category)
                     .Include(x => x.Brand)
                     .AsQueryable();
-
-                // 🔥 Vendor should only see his products
-                if (!isAdmin)
-                {
-                    query = query.Where(x => x.Vendor == vendorId);
-                }
 
                 // Filter by category
                 if (filter.CategoryId.HasValue)
@@ -237,8 +224,6 @@ namespace NifemsStores.Persistence.Services
                         BrandId = x.BrandId,
                         ProductImageUrl = x.ProductImageUrl,
                         BrandName = x.Brand != null ? x.Brand.Name : null,
-                        VendorId = x.Vendor,
-                        VendorUserName = x.UserName
                     })
                     .ToListAsync();
 
@@ -257,7 +242,7 @@ namespace NifemsStores.Persistence.Services
                 _logger.LogInformation("Products cached successfully: {CacheKey}", cacheKey);
 
                 return BaseResponse<PaginatedResponse<ProductDto>>
-                    .Succes(response, "Products retrieved successfully", 200);
+                    .Success(response, "Products retrieved successfully", 200);
             }
             catch (Exception ex)
             {
@@ -280,7 +265,7 @@ namespace NifemsStores.Persistence.Services
                 {
                     _logger.LogInformation("Product retrieved from cache: {ProductId}", productId);
 
-                    return BaseResponse<ProductDto>.Succes(cachedProduct, "Product retrieved successfully (cached)", 200);
+                    return BaseResponse<ProductDto>.Success(cachedProduct, "Product retrieved successfully (cached)", 200);
                 }
 
                 var product = await _context.Products
@@ -306,8 +291,6 @@ namespace NifemsStores.Persistence.Services
                     BrandId = product.BrandId,
                     BrandName = product.Brand != null ? product.Brand.Name : null,
                     ProductImageUrl = product.ProductImageUrl,
-                    VendorId = product.Vendor,
-                    VendorUserName = product.UserName
                 };
 
                 // ✅ Save to cache
@@ -315,7 +298,7 @@ namespace NifemsStores.Persistence.Services
 
                 _logger.LogInformation("Product cached successfully: {ProductId}", productId);
 
-                return BaseResponse<ProductDto>.Succes(response, "Product retrieved successfully", 200);
+                return BaseResponse<ProductDto>.Success(response, "Product retrieved successfully", 200);
             }
             catch (Exception ex)
             {

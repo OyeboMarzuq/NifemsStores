@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
-using NifemsStore.Domain.Entities;
+using NifemsStores.Domain.Entities;
 using NifemsStores.Domain.Entities;
 
 namespace NifemsStores.Persistence.Context

@@ -1,10 +1,9 @@
-﻿
-using NifemsStore.Domain.Enum;
+
+using NifemsStores.Domain.Enum;
 using NifemsStores.Domain.Entities;
 
 public class Order : BaseEntity
 {
-    // This Shows On The Vendors Dashboard
     public string UserId { get; set; }
     public ApplicationUser User { get; set; }
     public OrderStatus Status { get; set; } = OrderStatus.Pending;
@@ -16,8 +15,4 @@ public class Order : BaseEntity
 
     public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
 
-    public Guid VendorId { get; set; }
-
-    public Guid GuestUserId { get; set; }
-    public string GuestUser { get; set; }
 }

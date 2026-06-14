@@ -1,6 +1,6 @@
 ﻿using NifemsStore.Domain.Enum;
 
-namespace NifemsStore.Application.DTOs.RecieptDTO
+namespace NifemsStores.Application.DTOs.RecieptDTO
 {
     public class ReceiptDto
     {

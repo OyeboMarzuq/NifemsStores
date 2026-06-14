@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using NifemsStore.Application.DTOs.ProductDTO;
-using NifemsStore.Application.Interfaces.IServices;
+using NifemsStores.Application.DTOs.ProductDTO;
+using NifemsStores.Application.Interfaces.IServices;
 
 namespace NifemsStores.API.Controllers
 {

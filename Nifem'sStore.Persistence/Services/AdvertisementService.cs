@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using NifemsStore.Application.DTOs.AdvertisementDTO;
-using NifemsStore.Application.Interfaces.IServices;
+using NifemsStores.Application.DTOs.AdvertisementDTO;
+using NifemsStores.Application.Interfaces.IServices;
 using NifemsStores.Application.Common.Response;
 using NifemsStores.Domain.Entities;
 using NifemsStores.Persistence.Context;
@@ -63,7 +63,7 @@ namespace NifemsStores.Persistence.Services
                     AdsPlatform = advert.AdsPlatform,
                 };
 
-                return BaseResponse<AdvertisementDto>.Succes(response, "Advertisement created successfully", 201);
+                return BaseResponse<AdvertisementDto>.Success(response, "Advertisement created successfully", 201);
             }
             catch (Exception ex)
             {
@@ -110,7 +110,7 @@ namespace NifemsStores.Persistence.Services
                     AdsPlatform = advert.AdsPlatform,
                 };
 
-                return BaseResponse<AdvertisementDto>.Succes(response, "Advertisement updated successfully", 200);
+                return BaseResponse<AdvertisementDto>.Success(response, "Advertisement updated successfully", 200);
             }
             catch (Exception ex)
             {
@@ -145,7 +145,7 @@ namespace NifemsStores.Persistence.Services
 
                 _logger.LogWarning("Advertisement deleted: {AdvertId}", advert.Id);
 
-                return BaseResponse<string>.Succes("Deleted", "Advertisement deleted successfully", 200);
+                return BaseResponse<string>.Success("Deleted", "Advertisement deleted successfully", 200);
             }
             catch (Exception ex)
             {

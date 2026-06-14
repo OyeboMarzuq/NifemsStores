@@ -1,5 +1,5 @@
 ﻿
-using NifemsStore.Domain.Enum;
+using NifemsStores.Domain.Enum;
 
 namespace NifemsStores.Domain.Entities
 {

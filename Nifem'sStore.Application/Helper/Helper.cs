@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NifemsStore.Application.Helper
+namespace NifemsStores.Application.Helper
 {
     public class Helper
     {

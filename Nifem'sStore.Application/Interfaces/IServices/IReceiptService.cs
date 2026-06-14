@@ -1,7 +1,7 @@
 ﻿using NifemsStore.Application.DTOs.ProductDTO;
-using NifemsStore.Application.DTOs.RecieptDTO;
+using NifemsStores.Application.DTOs.RecieptDTO;
 
-namespace NifemsStore.Application.Interfaces.IServices
+namespace NifemsStores.Application.Interfaces.IServices
 {
     public interface IReceiptService
     {

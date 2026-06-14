@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using NifemsStore.Application.DTOs.ReportDTO;
-using NifemsStore.Application.Interfaces.IServices;
+using NifemsStores.Application.DTOs.ReportDTO;
+using NifemsStores.Application.Interfaces.IServices;
 using NifemsStores.Application.Common.Response;
 using NifemsStores.Persistence.Context;
 
@@ -18,21 +18,15 @@ namespace NifemsStores.Persistence.Services
             _logger = logger;
         }
 
-        public async Task<BaseResponse<List<PurchaseReportDto>>> GetVendorPurchaseReports(Guid vendorId, bool isAdmin)
+        public async Task<BaseResponse<List<PurchaseReportDto>>> GetAllPurchaseReports()
         {
             try
             {
-                var query = _context.PurchaseReports.AsQueryable();
-
-                if (!isAdmin)
-                    query = query.Where(x => x.VendorId == vendorId);
-
-                var reports = await query
+                var reports = await _context.PurchaseReports
                     .OrderByDescending(x => x.CreatedAt)
                     .Select(x => new PurchaseReportDto
                     {
                         PurchaseReportId = x.Id,
-                        VendorId = x.VendorId,
                         TotalPurchases = x.TotalPurchases,
                         TotalSpent = x.TotalSpent,
                         TotalCost = x.TotalCost,
@@ -40,7 +34,7 @@ namespace NifemsStores.Persistence.Services
                     })
                     .ToListAsync();
 
-                return BaseResponse<List<PurchaseReportDto>>.Succes(reports, "Purchase reports retrieved successfully", 200);
+                return BaseResponse<List<PurchaseReportDto>>.Success(reports, "Purchase reports retrieved successfully", 200);
             }
             catch (Exception ex)
             {
@@ -49,7 +43,7 @@ namespace NifemsStores.Persistence.Services
             }
         }
 
-        public async Task<BaseResponse<PurchaseReportDto>> GetPurchaseReportById(Guid reportId, Guid vendorId, bool isAdmin)
+        public async Task<BaseResponse<PurchaseReportDto>> GetPurchaseReportById(Guid reportId)
         {
             try
             {
@@ -58,20 +52,14 @@ namespace NifemsStores.Persistence.Services
                 if (report == null)
                     return BaseResponse<PurchaseReportDto>.Failure("Purchase report not found", statusCode: 404);
 
-                if (!isAdmin && report.VendorId != vendorId)
-                    return BaseResponse<PurchaseReportDto>.Failure("Unauthorized access", statusCode: 403);
-
-                var response = new PurchaseReportDto
+                return BaseResponse<PurchaseReportDto>.Success(new PurchaseReportDto
                 {
                     PurchaseReportId = report.Id,
-                    VendorId = report.VendorId,
                     TotalPurchases = report.TotalPurchases,
                     TotalSpent = report.TotalSpent,
                     TotalCost = report.TotalCost,
                     PurchaseDate = report.PurchaseDate
-                };
-
-                return BaseResponse<PurchaseReportDto>.Succes(response, "Purchase report retrieved successfully", 200);
+                }, "Purchase report retrieved successfully", 200);
             }
             catch (Exception ex)
             {

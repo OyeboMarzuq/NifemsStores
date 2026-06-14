@@ -1,8 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using NifemsStore.Application.DTOs.CartDTO;
-using NifemsStore.Application.Interfaces.IServices;
-using NifemsStore.Domain.Entities;
+using NifemsStores.Application.DTOs.CartDTO;
+using NifemsStores.Application.Interfaces.IServices;
+using NifemsStores.Domain.Entities;
 using NifemsStores.Application.Common.Response;
 using NifemsStores.Domain.Entities;
 using NifemsStores.Persistence.Context;
@@ -49,7 +49,7 @@ namespace NifemsStores.Persistence.Services
 
                 response.TotalAmount = response.CartItems.Sum(x => x.SubTotal);
 
-                return BaseResponse<CartDto>.Succes(response, "Cart retrieved successfully", 200);
+                return BaseResponse<CartDto>.Success(response, "Cart retrieved successfully", 200);
             }
             catch (Exception ex)
             {
@@ -69,6 +69,9 @@ namespace NifemsStores.Persistence.Services
 
                 if (product == null)
                     return BaseResponse<string>.Failure("Product not found", statusCode: 404);
+
+                if (dto.Quantity > product.QuantityInStock)
+                    return BaseResponse<string>.Failure($"Only {product.QuantityInStock} unit(s) available in stock", statusCode: 400);
 
                 var cart = await _context.Carts
                     .Include(x => x.CartItems)
@@ -92,7 +95,10 @@ namespace NifemsStores.Persistence.Services
 
                 if (existingItem != null)
                 {
-                    existingItem.Quantity += dto.Quantity;
+                    var newQty = existingItem.Quantity + dto.Quantity;
+                    if (newQty > product.QuantityInStock)
+                        return BaseResponse<string>.Failure($"Cannot add {dto.Quantity} more. Only {product.QuantityInStock - existingItem.Quantity} additional unit(s) available", statusCode: 400);
+                    existingItem.Quantity = newQty;
                 }
                 else
                 {
@@ -110,7 +116,7 @@ namespace NifemsStores.Persistence.Services
                 cart.UpdatedAt = DateTime.UtcNow;
                 await _context.SaveChangesAsync();
 
-                return BaseResponse<string>.Succes("Added to cart successfully", "Success", 201);
+                return BaseResponse<string>.Success("Added to cart successfully", "Success", 201);
             }
             catch (Exception ex)
             {
@@ -141,7 +147,7 @@ namespace NifemsStores.Persistence.Services
 
                 await _context.SaveChangesAsync();
 
-                return BaseResponse<string>.Succes("Cart item updated successfully", "Updated", 200);
+                return BaseResponse<string>.Success("Cart item updated successfully", "Updated", 200);
             }
             catch (Exception ex)
             {
@@ -167,7 +173,7 @@ namespace NifemsStores.Persistence.Services
                 _context.CartItems.Remove(cartItem);
                 await _context.SaveChangesAsync();
 
-                return BaseResponse<string>.Succes("Cart item removed successfully", "Deleted", 200);
+                return BaseResponse<string>.Success("Cart item removed successfully", "Deleted", 200);
             }
             catch (Exception ex)
             {
@@ -190,7 +196,7 @@ namespace NifemsStores.Persistence.Services
                 _context.CartItems.RemoveRange(cart.CartItems);
                 await _context.SaveChangesAsync();
 
-                return BaseResponse<string>.Succes("Cart cleared successfully", "Cleared", 200);
+                return BaseResponse<string>.Success("Cart cleared successfully", "Cleared", 200);
             }
             catch (Exception ex)
             {

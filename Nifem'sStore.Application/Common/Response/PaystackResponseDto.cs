@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NifemsStore.Application.Common.Response
+namespace NifemsStores.Application.Common.Response
 {
     public class PaystackResponseDto<T>
     {

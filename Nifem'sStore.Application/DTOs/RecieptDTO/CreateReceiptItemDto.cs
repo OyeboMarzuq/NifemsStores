@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NifemsStore.Application.DTOs.RecieptDTO
+namespace NifemsStores.Application.DTOs.RecieptDTO
 {
     public class CreateReceiptItemDto
     {

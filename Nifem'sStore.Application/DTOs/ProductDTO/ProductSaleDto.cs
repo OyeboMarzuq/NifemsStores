@@ -1,6 +1,6 @@
 ﻿using NifemsStore.Domain.Enum;
 
-namespace NifemsStore.Application.DTOs.ProductDTO
+namespace NifemsStores.Application.DTOs.ProductDTO
 {
     public class ProductSaleDto
     {

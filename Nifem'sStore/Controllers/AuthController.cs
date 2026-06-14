@@ -1,14 +1,13 @@
-﻿using FluentValidation;
+using FluentValidation;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NifemsStore.Application.DTOs;
+using NifemsStores.Application.DTOs;
 using NifemsStores.Application.Common.Response;
 using NifemsStores.Application.DTOs;
 using NifemsStores.Application.Interfaces.IServices;
-using WireMock.Admin.Mappings;
 
 namespace NifemsStores.Controllers
 {

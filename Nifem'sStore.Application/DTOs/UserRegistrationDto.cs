@@ -7,7 +7,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace NifemsStore.Application.DTOs
+namespace NifemsStores.Application.DTOs
 {
     public class UserRegistrationDto
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NifemsStore.Application.DTOs.CategoryDTO
+namespace NifemsStores.Application.DTOs.CategoryDTO
 {
     public class CreateCategoryRequestDto
     {

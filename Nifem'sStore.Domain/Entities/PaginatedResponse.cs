@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NifemsStore.Domain.Entities
+namespace NifemsStores.Domain.Entities
 {
     public class PaginatedResponse<T>
     {

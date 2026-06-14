@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace NifemsStore.Application.Common.Response
+namespace NifemsStores.Application.Common.Response
 {
     public class InitializePaymentResponseDto
     {

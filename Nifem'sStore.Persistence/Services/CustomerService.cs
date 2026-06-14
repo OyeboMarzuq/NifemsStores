@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using NifemsStore.Application.DTOs.CustomerDTO;
-using NifemsStore.Application.DTOs.UserDTO;
-using NifemsStore.Application.Interfaces.IServices;
+using NifemsStores.Application.DTOs.CustomerDTO;
+using NifemsStores.Application.DTOs.UserDTO;
+using NifemsStores.Application.Interfaces.IServices;
 using NifemsStores.Application.Common.Response;
 using NifemsStores.Application.Interfaces.IServices;
 using NifemsStores.Domain.Entities;
@@ -154,7 +154,7 @@ namespace NifemsStores.Persistence.Services
                 DateCreated = customer.DateCreated
             };
 
-            return BaseResponse<CustomerDto>.Succes(customerDto, "Customer retrieved successfully", 200);
+            return BaseResponse<CustomerDto>.Success(customerDto, "Customer retrieved successfully", 200);
         }
 
     }

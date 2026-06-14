@@ -1,5 +1,5 @@
 ﻿using NifemsStore.Application.DTOs.CustomerDTO;
-using NifemsStore.Application.DTOs.UserDTO;
+using NifemsStores.Application.DTOs.UserDTO;
 using NifemsStores.Application.Common.Response;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NifemsStore.Application.Interfaces.IServices
+namespace NifemsStores.Application.Interfaces.IServices
 {
     public interface ICustomerService
     {

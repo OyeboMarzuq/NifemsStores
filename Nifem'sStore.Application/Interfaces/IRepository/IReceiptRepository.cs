@@ -1,6 +1,6 @@
 ﻿using NifemsStores.Domain.Entities;
 
-namespace NifemsStore.Application.Interfaces.IRepository
+namespace NifemsStores.Application.Interfaces.IRepository
 {
     public interface IReceiptRepository
     {

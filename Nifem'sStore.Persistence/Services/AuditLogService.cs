@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
-using NifemsStore.Application.Interfaces.IServices;
+using NifemsStores.Application.Interfaces.IServices;
 using NifemsStores.Domain.Entities;
 using NifemsStores.Persistence.Context;
 

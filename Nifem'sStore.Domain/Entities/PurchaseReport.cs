@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +8,7 @@ namespace NifemsStores.Domain.Entities
 {
     public class PurchaseReport : BaseEntity
     {
-        public Guid VendorId { get; set; }
+        public Guid AdminId { get; set; }
         public int TotalPurchases { get; set; }
         public decimal TotalSpent { get; set; }
         public DateTime? EndDate { get; set; }

@@ -1,8 +1,8 @@
 ﻿using NifemsStore.Application.Common.RequestModel.PaymentDTO;
-using NifemsStore.Application.Common.Response;
+using NifemsStores.Application.Common.Response;
 using NifemsStores.Application.Common.Response;
 
-namespace NifemsStore.Application.Interfaces.IServices
+namespace NifemsStores.Application.Interfaces.IServices
 {
     public interface IPayStackService
     {

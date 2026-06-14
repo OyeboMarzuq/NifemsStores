@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using NifemsStore.Application.Interfaces.IRepository;
+using NifemsStores.Application.Interfaces.IRepository;
 using NifemsStores.Domain.Entities;
 using NifemsStores.Persistence.Context;
 

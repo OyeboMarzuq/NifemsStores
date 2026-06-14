@@ -1,18 +1,18 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
-using NifemsStore.Application.Common.RequestModel.PaymentDTO;
-using NifemsStore.Application.Common.Response;
-using NifemsStore.Application.DTOs;
-using NifemsStore.Application.Interfaces.IServices;
-using NifemsStore.Domain.Entities;
+using NifemsStores.Application.Common.RequestModel.PaymentDTO;
+using NifemsStores.Application.Common.Response;
+using NifemsStores.Application.DTOs;
+using NifemsStores.Application.Interfaces.IServices;
+using NifemsStores.Domain.Entities;
 using NifemsStores.Application.Common.Response;
 using NifemsStores.Persistence.Context;
 using System.Net.Http.Headers;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace NifemsStore.Persistence.Services
+namespace NifemsStores.Persistence.Services
 {
     public class PayStackService : IPayStackService
     {

@@ -1,14 +1,15 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NifemsStore.Application.DTOs;
-using NifemsStore.Application.DTOs.ProductDTO;
-using NifemsStore.Application.Interfaces.IServices;
+using NifemsStores.Application.DTOs;
+using NifemsStores.Application.DTOs.ProductDTO;
+using NifemsStores.Application.Interfaces.IServices;
 using System.Security.Claims;
 
-namespace NifemsStore.Controllers
+namespace NifemsStores.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Admin,SuperAdmin")]
     public class ProductController : ControllerBase
     {
         private readonly IProductService _productService;
@@ -18,71 +19,38 @@ namespace NifemsStore.Controllers
             _productService = productService;
         }
 
-        private Guid GetUserId()
-        {
-            return Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-        }
+        private string GetUserName() => User.FindFirstValue(ClaimTypes.Name) ?? "Admin";
 
-        private string GetUserName()
-        {
-            return User.FindFirstValue(ClaimTypes.Name);
-        }
-
-        private bool IsAdmin()
-        {
-            return User.IsInRole("Admin");
-        }
-
-        // CREATE
-        [Authorize(Roles = "Vendor,Admin")]
         [HttpPost("create")]
-        public async Task<IActionResult> CreateProduct([FromForm] CreateProductRequestDto dto)
+        public async Task<IActionResult> CreateProduct([FromBody] CreateProductRequestDto dto)
         {
-            var vendorId = GetUserId();
-            var userName = GetUserName();
-
-            var response = await _productService.CreateProduct(dto, vendorId, userName);
+            var response = await _productService.CreateProduct(dto, GetUserName());
             return StatusCode(response.StatusCode ?? 200, response);
         }
 
-        // UPDATE
-        [Authorize(Roles = "Vendor,Admin")]
         [HttpPut("update")]
         public async Task<IActionResult> UpdateProduct([FromBody] UpdateProductDto dto)
         {
-            var vendorId = GetUserId();
-            var isAdmin = IsAdmin();
-
-            var response = await _productService.UpdateProduct(dto, vendorId, isAdmin);
+            var response = await _productService.UpdateProduct(dto, GetUserName());
             return StatusCode(response.StatusCode ?? 200, response);
         }
 
-        // DELETE
-        [Authorize(Roles = "Vendor,Admin")]
         [HttpDelete("delete/{productId}")]
         public async Task<IActionResult> DeleteProduct(Guid productId)
         {
-            var vendorId = GetUserId();
-            var isAdmin = IsAdmin();
-
-            var response = await _productService.DeleteProduct(productId, vendorId, isAdmin);
+            var response = await _productService.DeleteProduct(productId, GetUserName());
             return StatusCode(response.StatusCode ?? 200, response);
         }
 
-        // GET ALL WITH PAGINATION + FILTER
-        [Authorize(Roles = "Vendor,Admin")]
+        [AllowAnonymous]
         [HttpGet("get-all")]
         public async Task<IActionResult> GetAllProducts([FromQuery] ProductFilterRequestDto filter)
         {
-            var vendorId = GetUserId();
-            var isAdmin = IsAdmin();
-
-            var response = await _productService.GetAllProducts(filter, vendorId, isAdmin);
+            var response = await _productService.GetAllProducts(filter);
             return StatusCode(response.StatusCode ?? 200, response);
         }
 
-        // GET BY ID
-        [Authorize(Roles = "Vendor,Admin")]
+        [AllowAnonymous]
         [HttpGet("get/{productId}")]
         public async Task<IActionResult> GetProductById(Guid productId)
         {

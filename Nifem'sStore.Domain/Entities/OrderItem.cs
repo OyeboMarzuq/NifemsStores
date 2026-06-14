@@ -1,5 +1,5 @@
 ﻿
-using NifemsStore.Domain.Entities;
+using NifemsStores.Domain.Entities;
 using NifemsStores.Domain.Entities;
 
 public class OrderItem : BaseEntity

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NifemsStore.Application.DTOs.CustomerDTO
+namespace NifemsStores.Application.DTOs.CustomerDTO
 {
     public class UpdateCustomerDto
     {

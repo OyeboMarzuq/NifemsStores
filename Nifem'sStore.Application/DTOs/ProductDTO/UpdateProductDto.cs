@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NifemsStore.Application.DTOs.ProductDTO
+namespace NifemsStores.Application.DTOs.ProductDTO
 {
     public class UpdateProductDto
     {

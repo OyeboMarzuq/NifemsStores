@@ -1,25 +1,14 @@
-﻿using NifemsStore.Application.DTOs.CategoryDTO;
-using NifemsStore.Application.DTOs.ProductDTO;
-using NifemsStore.Domain.Entities;
+using NifemsStores.Application.DTOs.CategoryDTO;
 using NifemsStores.Application.Common.Response;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace NifemsStore.Application.Interfaces.IServices
+namespace NifemsStores.Application.Interfaces.IServices
 {
     public interface ICategoryService
     {
-        Task<BaseResponse<CategoryDto>> CreateCategory(CreateCategoryRequestDto dto, Guid vendorId, string performedBy);
-
-        Task<BaseResponse<CategoryDto>> UpdateCategory(Guid categoryId, UpdateCategoryDto dto, Guid vendorId, string performedBy);
-
-        Task<BaseResponse<string>> DeleteCategory(Guid categoryId, Guid vendorId, string performedBy);
-
-        Task<BaseResponse<List<CategoryDto>>> GetAllCategories(Guid vendorId);
-
-        Task<BaseResponse<CategoryDto>> GetCategoryById(Guid categoryId, Guid vendorId);
+        Task<BaseResponse<CategoryDto>> CreateCategory(CreateCategoryRequestDto dto, string performedBy);
+        Task<BaseResponse<CategoryDto>> UpdateCategory(Guid categoryId, UpdateCategoryDto dto, string performedBy);
+        Task<BaseResponse<string>> DeleteCategory(Guid categoryId, string performedBy);
+        Task<BaseResponse<List<CategoryDto>>> GetAllCategories();
+        Task<BaseResponse<CategoryDto>> GetCategoryById(Guid categoryId);
     }
 }

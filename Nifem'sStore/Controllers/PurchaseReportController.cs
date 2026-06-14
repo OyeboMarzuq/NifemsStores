@@ -1,13 +1,12 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NifemsStore.Application.Interfaces.IServices;
-using System.Security.Claims;
+using NifemsStores.Application.Interfaces.IServices;
 
-namespace NifemsStore.Controllers
+namespace NifemsStores.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(Roles = "Admin,SuperAdmin")]
     public class PurchaseReportController : ControllerBase
     {
         private readonly IPurchaseReportService _purchaseReportService;
@@ -17,30 +16,18 @@ namespace NifemsStore.Controllers
             _purchaseReportService = purchaseReportService;
         }
 
-        private Guid GetUserId()
-        {
-            return Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-        }
-
-        private bool IsAdmin()
-        {
-            return User.IsInRole("ADMIN");
-        }
-
         [HttpGet("all")]
-        [Authorize(Roles = "VENDOR,ADMIN")]
-        public async Task<IActionResult> GetPurchaseReports()
+        public async Task<IActionResult> GetAllPurchaseReports()
         {
-            var response = await _purchaseReportService.GetVendorPurchaseReports(GetUserId(), IsAdmin());
-            return StatusCode(response.StatusCode ?? 500, response);
+            var response = await _purchaseReportService.GetAllPurchaseReports();
+            return StatusCode(response.StatusCode ?? 200, response);
         }
 
         [HttpGet("{reportId}")]
-        [Authorize(Roles = "VENDOR,ADMIN")]
         public async Task<IActionResult> GetPurchaseReportById(Guid reportId)
         {
-            var response = await _purchaseReportService.GetPurchaseReportById(reportId, GetUserId(), IsAdmin());
-            return StatusCode(response.StatusCode ?? 500, response);
+            var response = await _purchaseReportService.GetPurchaseReportById(reportId);
+            return StatusCode(response.StatusCode ?? 200, response);
         }
     }
 }

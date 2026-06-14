@@ -1,16 +1,13 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NifemsStore.Application.DTOs.CategoryDTO;
-using NifemsStore.Application.Interfaces.IServices;
-using NifemsStores.Application.DTOs;
+using NifemsStores.Application.DTOs.CategoryDTO;
 using NifemsStores.Application.Interfaces.IServices;
 using System.Security.Claims;
 
-namespace NifemsStore.Controllers
+namespace NifemsStores.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Vendor")]
     public class CategoryController : ControllerBase
     {
         private readonly ICategoryService _categoryService;
@@ -20,62 +17,46 @@ namespace NifemsStore.Controllers
             _categoryService = categoryService;
         }
 
-        private Guid GetVendorId()
-        {
-            return Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-        }
+        private string GetUserName() => User.FindFirstValue(ClaimTypes.Name) ?? "Admin";
 
-        private string GetUserEmail()
-        {
-            return User.FindFirstValue(ClaimTypes.Email)!;
-        }
-
+        [Authorize(Roles = "Admin,SuperAdmin")]
         [HttpPost("create")]
         public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryRequestDto dto)
         {
-            var vendorId = GetVendorId();
-            var email = GetUserEmail();
-
-            var response = await _categoryService.CreateCategory(dto, vendorId, email);
-            return StatusCode(response.StatusCode ?? 500, response);
+            var response = await _categoryService.CreateCategory(dto, GetUserName());
+            return StatusCode(response.StatusCode ?? 200, response);
         }
 
+        [AllowAnonymous]
         [HttpGet("get-all")]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAllCategories()
         {
-            var vendorId = GetVendorId();
-
-            var response = await _categoryService.GetAllCategories(vendorId);
-            return StatusCode(response.StatusCode ?? 500, response);
+            var response = await _categoryService.GetAllCategories();
+            return StatusCode(response.StatusCode ?? 200, response);
         }
 
-        [HttpGet("get-by-id/{categoryId}")]
-        public async Task<IActionResult> GetById(Guid categoryId)
+        [AllowAnonymous]
+        [HttpGet("get/{categoryId}")]
+        public async Task<IActionResult> GetCategoryById(Guid categoryId)
         {
-            var vendorId = GetVendorId();
-
-            var response = await _categoryService.GetCategoryById(categoryId, vendorId);
-            return StatusCode(response.StatusCode ?? 500, response);
+            var response = await _categoryService.GetCategoryById(categoryId);
+            return StatusCode(response.StatusCode ?? 200, response);
         }
 
+        [Authorize(Roles = "Admin,SuperAdmin")]
         [HttpPut("update/{categoryId}")]
-        public async Task<IActionResult> Update(Guid categoryId, [FromBody] UpdateCategoryDto dto)
+        public async Task<IActionResult> UpdateCategory(Guid categoryId, [FromBody] UpdateCategoryDto dto)
         {
-            var vendorId = GetVendorId();
-            var email = GetUserEmail();
-
-            var response = await _categoryService.UpdateCategory(categoryId, dto, vendorId, email);
-            return StatusCode(response.StatusCode ?? 500, response);
+            var response = await _categoryService.UpdateCategory(categoryId, dto, GetUserName());
+            return StatusCode(response.StatusCode ?? 200, response);
         }
 
+        [Authorize(Roles = "Admin,SuperAdmin")]
         [HttpDelete("delete/{categoryId}")]
-        public async Task<IActionResult> Delete(Guid categoryId)
+        public async Task<IActionResult> DeleteCategory(Guid categoryId)
         {
-            var vendorId = GetVendorId();
-            var email = GetUserEmail();
-
-            var response = await _categoryService.DeleteCategory(categoryId, vendorId, email);
-            return StatusCode(response.StatusCode ?? 500, response);
+            var response = await _categoryService.DeleteCategory(categoryId, GetUserName());
+            return StatusCode(response.StatusCode ?? 200, response);
         }
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NifemsStore.Application.DTOs.CartDTO
+namespace NifemsStores.Application.DTOs.CartDTO
 {
     public class AddToCartDto
     {

@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using NifemsStore.Application.DTOs;
-using NifemsStore.Application.DTOs.CustomerDTO;
-using NifemsStore.Application.DTOs.UserDTO;
-using NifemsStore.Application.Interfaces.IServices;
+using NifemsStores.Application.DTOs;
+using NifemsStores.Application.DTOs.CustomerDTO;
+using NifemsStores.Application.DTOs.UserDTO;
+using NifemsStores.Application.Interfaces.IServices;
 using NifemsStores.Application.Common.Response;
 using NifemsStores.Application.Interfaces.IServices;
 
-namespace NifemsStore.Controllers
+namespace NifemsStores.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

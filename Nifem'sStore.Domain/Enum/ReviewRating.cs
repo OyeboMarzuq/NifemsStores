@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NifemsStore.Domain.Enum
+namespace NifemsStores.Domain.Enum
 {
     public enum ReviewRating
     {

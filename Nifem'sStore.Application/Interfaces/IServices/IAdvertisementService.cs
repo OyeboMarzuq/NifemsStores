@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NifemsStore.Application.Interfaces.IServices
+namespace NifemsStores.Application.Interfaces.IServices
 {
     public interface IAdvertisementService
     {

@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NifemsStore.Application.DTOs.AdvertisementDTO;
-using NifemsStore.Application.Interfaces.IServices;
+using NifemsStores.Application.DTOs.AdvertisementDTO;
+using NifemsStores.Application.Interfaces.IServices;
 
-namespace NifemsStore.Controllers
+namespace NifemsStores.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

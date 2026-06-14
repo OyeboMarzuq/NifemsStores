@@ -1,6 +1,6 @@
-﻿using NifemsStore.Domain.Enum;
+using NifemsStores.Domain.Enum;
 
-namespace NifemsStore.Application.DTOs.ReportDTO
+namespace NifemsStores.Application.DTOs.ReportDTO
 {
     public class ReportDto
     {
@@ -8,8 +8,7 @@ namespace NifemsStore.Application.DTOs.ReportDTO
         public string Title { get; set; } = default!;
         public string? Description { get; set; }
         public ReportType ReportType { get; set; }
-        public Guid VendorId { get; set; }
-        public DateTime GeneratedDate { get; set; }
+            public DateTime GeneratedDate { get; set; }
         public string? FilePath { get; set; }
         public string ReportData { get; set; } = default!;
     }

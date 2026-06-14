@@ -14,7 +14,7 @@ namespace NifemsStores.Application.Common.Response
         public List<string>? Errors { get; set; }
         public int? StatusCode { get; set; }
 
-        public static BaseResponse<T> Succes(T data, string message = "Request successful", int statusCode = 200)
+        public static BaseResponse<T> Success(T data, string message = "Request successful", int statusCode = 200)
         {
             return new BaseResponse<T>
             {

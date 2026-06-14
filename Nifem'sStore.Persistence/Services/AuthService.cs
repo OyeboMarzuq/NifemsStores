@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using NifemsStore.Application.DTOs;
+using NifemsStores.Application.DTOs;
 using NifemsStores.Application.Common.Response;
 using NifemsStores.Application.DTOs;
 using NifemsStores.Application.Interfaces.IServices;
@@ -157,7 +157,7 @@ namespace NifemsStores.Persistence.Services
 
             try
             {
-                await _userManager.AddToRoleAsync(user, Role.User);
+                await _userManager.AddToRoleAsync(user, Role.Customer);
 
                 var customer = new Customer
                 {
@@ -259,7 +259,7 @@ namespace NifemsStores.Persistence.Services
                     await _context.SaveChangesAsync();
                 }
 
-                return BaseResponse<string>.Succes(user.UserName, "Google login successful", 200);
+                return BaseResponse<string>.Success(user.UserName, "Google login successful", 200);
             }
             catch (Exception ex)
             {

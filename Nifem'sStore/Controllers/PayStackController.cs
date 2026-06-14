@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using NifemsStore.Application.Common.RequestModel.PaymentDTO;
-using NifemsStore.Application.Common.Response;
-using NifemsStore.Application.Interfaces.IServices;
+using NifemsStores.Application.Common.RequestModel.PaymentDTO;
+using NifemsStores.Application.Common.Response;
+using NifemsStores.Application.Interfaces.IServices;
 
 namespace NifemsStores.API.Controllers
 {
